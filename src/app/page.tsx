@@ -96,44 +96,8 @@ export default function LandingPage() {
           bottom: "10%", left: "20%"
         }} />
 
-      {/* Nav */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between h-16"
-        style={{
-          padding: "0 clamp(16px,4vw,56px)",
-          background: "rgba(4,2,8,0.7)",
-          backdropFilter: "blur(32px) saturate(1.4)",
-          borderBottom: "1px solid rgba(255,255,255,0.04)"
-        }}>
-        <div className="flex items-center gap-2.5">
-          <div className="w-[32px] h-[32px] rounded-[9px] flex items-center justify-center text-[15px] font-black text-white shrink-0"
-            style={{
-              background: "linear-gradient(135deg, #c8254a, #780f20)",
-              fontFamily: "Playfair Display, serif",
-              boxShadow: "0 4px 20px rgba(158,24,56,0.45)"
-            }}>С</div>
-          <span className="text-[17px] font-bold tracking-[-0.02em]" style={{ fontFamily: "Playfair Display, serif" }}>Солонго</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <Link href="/auth/login">
-            <button className="text-text-secondary border border-white/[0.07] rounded-[12px] font-medium text-[13px] cursor-pointer transition-all duration-200 hover:text-text-primary hover:border-white/[0.14] px-5 py-[9px]"
-              style={{ background: "transparent" }}>
-              Нэвтрэх
-            </button>
-          </Link>
-          <Link href="/auth/register">
-            <button className="text-white border-none rounded-[12px] font-semibold text-[13px] cursor-pointer transition-all duration-200 hover:-translate-y-px px-5 py-[9px]"
-              style={{
-                background: "linear-gradient(135deg, #c8254a, #780f20)",
-                boxShadow: "0 4px 22px rgba(158,24,56,0.38)"
-              }}>
-              Бүртгүүлэх
-            </button>
-          </Link>
-        </div>
-      </nav>
-
       {/* Hero */}
-      <section className="pt-16 min-h-screen flex flex-col items-center justify-center relative">
+      <section className="pt-4 flex flex-col items-center justify-center relative">
         <div className="text-center max-w-[900px] mx-auto px-6 py-24">
 
           <div className="mb-10 animate-fade-up">
@@ -188,11 +152,6 @@ export default function LandingPage() {
             <Lock size={11} />
             18+ · Монгол иргэдэд зориулсан · Нууцлал хамгаалагдсан
           </p>
-        </div>
-
-        {/* Scroll cue */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float opacity-40">
-          <ChevronDown size={22} style={{ color: "var(--text-muted)" }} />
         </div>
       </section>
 
@@ -368,7 +327,7 @@ export default function LandingPage() {
       </section>
 
       {/* CTA */}
-      <section className="text-center px-6 py-32 relative">
+      <section className="text-center px-6 pb-32 relative">
         <div className="max-w-[600px] mx-auto">
           <div className="h-px mb-24" style={{ background: "linear-gradient(90deg, transparent, rgba(158,24,56,0.28), rgba(90,31,138,0.18), transparent)" }} />
 

@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Heart, Drama, Users, MessageCircle, Gamepad2, Bell } from "lucide-react";
+import { Home, Heart, Drama, Users, MessageCircle, Gamepad2 } from "lucide-react";
 
 const NAV = [
   { href: "/dashboard", icon: Home, label: "Нүүр" },
@@ -17,18 +17,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   return (
     <div className="flex min-h-screen bg-bg-primary">
-      {/* Sidebar — desktop only */}
-      <aside className="hidden md:flex w-[230px] shrink-0 fixed top-0 left-0 bottom-0 z-50 bg-bg-secondary border-r border-white/[0.05] flex-col py-5 px-3">
-        {/* Logo */}
-        <div className="flex items-center gap-2.5 px-2.5 py-2 mb-6">
-          <div
-            className="w-[34px] h-[34px] rounded-[10px] flex items-center justify-center text-lg font-black text-white shrink-0"
-            style={{ background: "linear-gradient(135deg, #b82040, #6e0f22)", fontFamily: "Playfair Display, serif" }}
-          >С</div>
-          <span className="text-[17px] font-bold" style={{ fontFamily: "Playfair Display, serif" }}>Солонго</span>
-        </div>
 
-        {/* Nav */}
+      <aside className="hidden md:flex w-[230px] shrink-0 fixed top-14 left-0 bottom-0 z-40 bg-bg-secondary border-r border-white/[0.05] flex-col py-5 px-3">
         <nav className="flex-1 flex flex-col gap-0.5">
           {NAV.map(n => {
             const active = pathname === n.href;
@@ -53,7 +43,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           })}
         </nav>
 
-        {/* Divider */}
         <div className="h-px bg-white/[0.05] my-4" />
 
         {/* User */}
@@ -74,25 +63,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </div>
       </aside>
 
-      {/* Main content */}
-      <main className="flex-1 md:ml-[230px] min-h-screen flex flex-col pb-[72px] md:pb-0">
-        {/* Top bar */}
-        <div className="sticky top-0 z-40 flex items-center justify-between px-5 h-14 bg-[rgba(17,14,30,0.88)] backdrop-blur-[24px] border-b border-white/[0.06]">
-          <div className="text-sm font-semibold text-text-secondary flex items-center gap-2">
-            {(() => { const n = NAV.find(n => n.href === pathname); if (!n) return null; const I = n.icon; return <I size={15} strokeWidth={1.8} />; })()}
-            {NAV.find(n => n.href === pathname)?.label || "Dashboard"}
-          </div>
-          <div className="flex items-center gap-3">
-            <button className="bg-transparent border border-white/[0.08] rounded-full w-[34px] h-[34px] cursor-pointer text-text-secondary flex items-center justify-center hover:bg-bg-elevated transition-colors">
-              <Bell size={15} strokeWidth={1.8} />
-            </button>
-            <div
-              className="w-8 h-8 rounded-full flex items-center justify-center text-[13px] font-bold text-white cursor-pointer"
-              style={{ background: "linear-gradient(135deg, #e8415a, #9b59ff)" }}
-            >М</div>
-          </div>
-        </div>
-
+      {/* Main content — offset for global header (pt-14) and sidebar */}
+      <main className="flex-1 md:ml-[230px] min-h-screen flex flex-col pt-14 pb-[72px] md:pb-0">
         <div className="p-5 md:p-7 flex-1">{children}</div>
       </main>
 
