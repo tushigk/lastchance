@@ -28,7 +28,7 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-bg-primary">
 
-      <div className="w-full h-72 md:h-screen md:w-[440px] md:shrink-0 md:sticky md:top-0 md:self-start border-b md:border-b-0 md:border-r border-white/[0.05]">
+      <div className="w-full h-72 md:h-screen md:w-1/2 md:shrink-0 md:sticky md:top-0 md:self-start border-b md:border-b-0 md:border-r border-white/[0.05]">
         <AuthBanner />
       </div>
 
@@ -124,7 +124,7 @@ export default function RegisterPage() {
 
             <p className="text-center text-[13px] text-text-muted">
               Бүртгэлтэй юу?{" "}
-              <Link href="/auth/login">
+              <Link href="/login">
                 <span className="text-[#e04878] font-semibold cursor-pointer hover:text-[#c22d50] transition-colors">Нэвтрэх</span>
               </Link>
             </p>
