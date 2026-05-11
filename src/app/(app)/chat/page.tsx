@@ -54,7 +54,7 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="flex gap-4" style={{ height: "calc(100vh - 100px)" }}>
+    <div className="flex gap-4 h-[calc(100vh-100px)]">
       {/* Conversation list */}
       <div
         className={`w-[280px] shrink-0 bg-bg-card border border-white/[0.06] rounded-[22px] flex flex-col overflow-hidden
@@ -120,7 +120,7 @@ export default function ChatPage() {
           </div>
           <div className="flex-1 min-w-0">
             <div className="font-semibold text-sm">{activeConv.name}</div>
-            <div className="text-[11px]" style={{ color: activeConv.online ? "#3cc878" : "var(--text-muted)" }}>
+            <div className={`text-[11px] ${activeConv.online ? "text-green" : "text-text-muted"}`}>
               {activeConv.online ? "● Онлайн" : "Сүүлд ирсэн цаг"}
             </div>
           </div>
@@ -133,7 +133,7 @@ export default function ChatPage() {
         {/* Messages */}
         <div className="flex-1 overflow-y-auto p-5 flex flex-col gap-2.5">
           {messages.map((m, i) => (
-            <div key={i} className="flex gap-2 items-end" style={{ justifyContent: m.role === "me" ? "flex-end" : "flex-start" }}>
+            <div key={i} className={`flex gap-2 items-end ${m.role === "me" ? "justify-end" : "justify-start"}`}>
               {m.role === "them" && (
                 <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center text-[11px] font-bold"
                   style={{ background: `${activeConv.color}22`, border: `1px solid ${activeConv.color}44`, color: activeConv.color }}>
@@ -147,7 +147,7 @@ export default function ChatPage() {
                 }>
                   {m.text}
                 </div>
-                <div className="text-[10px] text-text-muted mt-0.5" style={{ textAlign: m.role === "me" ? "right" : "left" }}>{m.time}</div>
+                <div className={`text-[10px] text-text-muted mt-0.5 ${m.role === "me" ? "text-right" : "text-left"}`}>{m.time}</div>
               </div>
             </div>
           ))}

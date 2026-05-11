@@ -36,16 +36,14 @@ export default function GamesPage() {
       </div>
 
       {/* Games grid */}
-      <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))" }}>
+      <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(280px,1fr))]">
         {GAMES.map((g, i) => (
-          <div key={i} className="bg-bg-card border border-white/[0.06] rounded-[22px] p-6 relative transition-all duration-[250ms]"
-            style={{ opacity: g.available ? 1 : 0.7 }}
+          <div key={i} className={`bg-bg-card border border-white/[0.06] rounded-[22px] p-6 relative transition-all duration-[250ms] ${g.available ? "opacity-100" : "opacity-70"}`}
             onMouseEnter={e => g.available && (e.currentTarget.style.borderColor = `${g.color}40`)}
             onMouseLeave={e => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)")}
           >
             {!g.available && (
-              <div className="absolute inset-0 flex items-center justify-center rounded-[inherit] backdrop-blur-[2px] z-[2]"
-                style={{ background: "rgba(10,10,15,0.5)" }}>
+              <div className="absolute inset-0 flex items-center justify-center rounded-[inherit] backdrop-blur-[2px] z-[2] bg-[rgba(10,10,15,0.5)]">
                 <span className="inline-flex items-center gap-1 px-5 py-2.5 rounded-full text-sm font-bold tracking-[0.05em] uppercase bg-[rgba(212,160,64,0.12)] text-[#e8b850] border border-[rgba(212,160,64,0.25)]">🔒 Удахгүй</span>
               </div>
             )}

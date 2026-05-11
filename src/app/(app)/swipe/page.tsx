@@ -40,12 +40,10 @@ export default function SwipePage() {
           <p className="text-text-secondary text-[13px] mt-0.5">AI-ийн санал болгосон хүмүүс</p>
         </div>
         <div className="flex gap-2">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold tracking-[0.04em] uppercase"
-            style={{ background: "rgba(158,24,56,0.12)", color: "#c22d50", border: "1px solid rgba(158,24,56,0.2)" }}>
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold tracking-[0.04em] uppercase bg-[rgba(158,24,56,0.12)] text-accent-light border border-[rgba(158,24,56,0.2)]">
             {PROFILES.length * 3} хүлээж байна
           </span>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold tracking-[0.04em] uppercase"
-            style={{ background: "rgba(90,31,138,0.12)", color: "#8b4fd4", border: "1px solid rgba(90,31,138,0.2)" }}>
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold tracking-[0.04em] uppercase bg-[rgba(90,31,138,0.12)] text-accent-purple border border-[rgba(90,31,138,0.2)]">
             <Cpu size={11} strokeWidth={1.8} /> AI Match
           </span>
         </div>
@@ -54,10 +52,8 @@ export default function SwipePage() {
       {/* Match modal */}
       {matched && (
         <div className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center backdrop-blur-[10px]">
-          <div className="backdrop-blur-[28px] border rounded-[28px] px-10 py-12 text-center max-w-[340px] w-[90%] animate-fade-up"
-            style={{ background: "rgba(12,8,25,0.95)", border: "1px solid rgba(158,24,56,0.4)", boxShadow: "0 0 0 1px rgba(158,24,56,0.07), 0 0 50px rgba(158,24,56,0.18)" }}>
-            <div className="w-16 h-16 rounded-full mx-auto mb-5 flex items-center justify-center animate-heartbeat"
-              style={{ background: "linear-gradient(135deg, #b82040, #6e0f22)", boxShadow: "0 8px 32px rgba(158,24,56,0.4)" }}>
+          <div className="backdrop-blur-[28px] border rounded-[28px] px-10 py-12 text-center max-w-[340px] w-[90%] animate-fade-up bg-[rgba(12,8,25,0.95)] border-[rgba(158,24,56,0.4)] shadow-[0_0_0_1px_rgba(158,24,56,0.07),0_0_50px_rgba(158,24,56,0.18)]">
+            <div className="w-16 h-16 rounded-full mx-auto mb-5 flex items-center justify-center animate-heartbeat bg-[linear-gradient(135deg,#b82040,#6e0f22)] shadow-[0_8px_32px_rgba(158,24,56,0.4)]">
               <Heart size={28} fill="white" strokeWidth={0} />
             </div>
             <h2 className="font-serif text-[28px] font-black mb-2">
@@ -74,8 +70,7 @@ export default function SwipePage() {
               </button>
               <button
                 onClick={() => setMatched(false)}
-                className="flex-1 text-white border-none rounded-[12px] font-semibold text-sm cursor-pointer transition-all duration-200 shadow-[0_4px_20px_rgba(158,24,56,0.35)] hover:-translate-y-0.5 py-3"
-                style={{ background: "linear-gradient(135deg, #b82040, #6e0f22)" }}>
+                className="flex-1 text-white border-none rounded-[12px] font-semibold text-sm cursor-pointer transition-all duration-200 shadow-[0_4px_20px_rgba(158,24,56,0.35)] hover:-translate-y-0.5 py-3 bg-[linear-gradient(135deg,#b82040,#6e0f22)]">
                 Мессеж илгээх
               </button>
             </div>
@@ -102,7 +97,7 @@ export default function SwipePage() {
           }}>
 
           {/* Photo area — atmospheric gradient placeholder */}
-          <div className="relative overflow-hidden" style={{ height: "60%" }}>
+          <div className="relative overflow-hidden h-[60%]">
             {/* Base atmosphere */}
             <div className="absolute inset-0" style={{
               background: `linear-gradient(165deg, ${profile.gradientA} 0%, ${profile.gradientB} 100%)`
@@ -128,14 +123,12 @@ export default function SwipePage() {
 
             {/* Swipe indicators */}
             {swipeDir === "left" && (
-              <div className="absolute top-5 left-5 rounded-[10px] px-4 py-2 border border-[rgba(200,50,70,0.6)]"
-                style={{ background: "rgba(158,24,56,0.75)", backdropFilter: "blur(8px)" }}>
+              <div className="absolute top-5 left-5 rounded-[10px] px-4 py-2 border border-[rgba(200,50,70,0.6)] bg-[rgba(158,24,56,0.75)] backdrop-blur-[8px]">
                 <span className="font-bold text-base text-white tracking-wide">ҮГҮЙ</span>
               </div>
             )}
             {swipeDir === "right" && (
-              <div className="absolute top-5 left-5 rounded-[10px] px-4 py-2 border border-[rgba(30,160,90,0.6)]"
-                style={{ background: "rgba(20,120,60,0.75)", backdropFilter: "blur(8px)" }}>
+              <div className="absolute top-5 left-5 rounded-[10px] px-4 py-2 border border-[rgba(30,160,90,0.6)] bg-[rgba(20,120,60,0.75)] backdrop-blur-[8px]">
                 <span className="font-bold text-base text-white tracking-wide">ТИЙМ</span>
               </div>
             )}
@@ -153,8 +146,7 @@ export default function SwipePage() {
             <p className="text-[13px] text-text-secondary mb-4 leading-[1.65]">{profile.bio}</p>
             <div className="flex gap-1.5 flex-wrap">
               {profile.interests.map(t => (
-                <span key={t} className="px-2.5 py-[5px] rounded-full text-[11px] font-medium text-text-secondary"
-                  style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.07)" }}>
+                <span key={t} className="px-2.5 py-[5px] rounded-full text-[11px] font-medium text-text-secondary bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.07)]">
                   {t}
                 </span>
               ))}
@@ -166,19 +158,16 @@ export default function SwipePage() {
       {/* Action buttons */}
       <div className="flex justify-center gap-5 items-center">
         <button onClick={() => swipe("left")}
-          className="w-[56px] h-[56px] rounded-full flex items-center justify-center cursor-pointer transition-all duration-[180ms] hover:scale-110"
-          style={{ background: "rgba(158,24,56,0.1)", border: "1px solid rgba(158,24,56,0.3)" }}>
-          <X size={20} strokeWidth={2} style={{ color: "#c22d50" }} />
+          className="w-[56px] h-[56px] rounded-full flex items-center justify-center cursor-pointer transition-all duration-[180ms] hover:scale-110 bg-[rgba(158,24,56,0.1)] border border-[rgba(158,24,56,0.3)]">
+          <X size={20} strokeWidth={2} className="text-accent-light" />
         </button>
         <button onClick={() => swipe("right")}
-          className="w-[68px] h-[68px] rounded-full border-none flex items-center justify-center cursor-pointer transition-all duration-[180ms] hover:scale-110"
-          style={{ background: "linear-gradient(135deg, #b82040, #6e0f22)", boxShadow: "0 8px 32px rgba(158,24,56,0.45)" }}>
+          className="w-[68px] h-[68px] rounded-full border-none flex items-center justify-center cursor-pointer transition-all duration-[180ms] hover:scale-110 bg-[linear-gradient(135deg,#b82040,#6e0f22)] shadow-[0_8px_32px_rgba(158,24,56,0.45)]">
           <Heart size={26} fill="white" strokeWidth={0} />
         </button>
         <button
-          className="w-[56px] h-[56px] rounded-full flex items-center justify-center cursor-pointer transition-all duration-[180ms] hover:scale-110"
-          style={{ background: "rgba(154,96,16,0.1)", border: "1px solid rgba(154,96,16,0.3)" }}>
-          <Star size={20} strokeWidth={1.8} style={{ color: "#c48830" }} />
+          className="w-[56px] h-[56px] rounded-full flex items-center justify-center cursor-pointer transition-all duration-[180ms] hover:scale-110 bg-[rgba(154,96,16,0.1)] border border-[rgba(154,96,16,0.3)]">
+          <Star size={20} strokeWidth={1.8} className="text-accent-gold-light" />
         </button>
       </div>
     </div>

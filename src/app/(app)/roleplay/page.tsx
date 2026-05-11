@@ -34,7 +34,7 @@ export default function RoleplayPage() {
   if (active !== null) {
     const scenario = SCENARIOS.find(s => s.id === active)!;
     return (
-      <div className="max-w-[720px] mx-auto flex flex-col" style={{ height: "calc(100vh - 180px)" }}>
+      <div className="max-w-[720px] mx-auto flex flex-col h-[calc(100vh-180px)]">
         <div className="bg-bg-card border border-white/[0.06] rounded-[22px] p-4 mb-4 flex items-center gap-3.5">
           <button onClick={() => setActive(null)}
             className="bg-transparent border border-white/[0.1] rounded-full w-[34px] h-[34px] cursor-pointer text-text-secondary text-base flex items-center justify-center">←</button>
@@ -53,20 +53,18 @@ export default function RoleplayPage() {
 
         <div className="flex-1 bg-bg-card border border-white/[0.06] rounded-[22px] p-5 overflow-y-auto flex flex-col gap-3.5 mb-3">
           {messages.map((m, i) => (
-            <div key={i} className="flex" style={{ justifyContent: m.role === "user" ? "flex-end" : "flex-start" }}>
+            <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
               {m.role !== "user" && (
-                <div className="w-7 h-7 rounded-full mr-2 shrink-0 flex items-center justify-center text-xs"
-                  style={{ background: m.role === "system" ? "linear-gradient(135deg, rgba(155,89,255,0.3), rgba(232,65,90,0.3))" : "linear-gradient(135deg, #9b59ff, #7c3aed)" }}>
+                <div className={`w-7 h-7 rounded-full mr-2 shrink-0 flex items-center justify-center text-xs ${m.role === "system" ? "bg-[linear-gradient(135deg,rgba(155,89,255,0.3),rgba(232,65,90,0.3))]" : "bg-[linear-gradient(135deg,#9b59ff,#7c3aed)]"}`}>
                   {m.role === "system" ? "📖" : "🤖"}
                 </div>
               )}
               <div className={m.role === "user"
                 ? "max-w-[70%] px-3.5 py-2.5 rounded-[18px] rounded-br-[4px] text-sm leading-relaxed bg-gradient-to-br from-[#c8305a] to-[#a0204a] text-white shadow-[0_4px_16px_rgba(200,48,90,0.3)]"
                 : m.role === "system"
-                  ? "max-w-[85%] px-3.5 py-2.5 rounded-[18px] rounded-bl-[4px] text-[13px] italic leading-relaxed border border-[rgba(155,89,255,0.2)] text-text-secondary"
+                  ? "max-w-[85%] px-3.5 py-2.5 rounded-[18px] rounded-bl-[4px] text-[13px] italic leading-relaxed border border-[rgba(155,89,255,0.2)] text-text-secondary bg-[rgba(155,89,255,0.1)]"
                   : "max-w-[70%] px-3.5 py-2.5 rounded-[18px] rounded-bl-[4px] text-sm leading-relaxed bg-bg-elevated text-text-primary border border-white/[0.07]"
-              }
-              style={m.role === "system" ? { background: "rgba(155,89,255,0.1)" } : {}}>
+              }>
                 {m.text}
               </div>
             </div>
@@ -102,19 +100,17 @@ export default function RoleplayPage() {
       <div className="flex gap-2 flex-wrap mb-6">
         {GENRES.map(g => (
           <button key={g} onClick={() => setFilter(g)}
-            className="px-4 py-[7px] rounded-full text-[13px] cursor-pointer transition-all duration-[180ms]"
-            style={{
-              background: filter === g ? "rgba(232,65,90,0.15)" : "transparent",
-              border: filter === g ? "1px solid rgba(232,65,90,0.5)" : "1px solid rgba(255,255,255,0.1)",
-              color: filter === g ? "#e8415a" : "var(--text-secondary)",
-              fontWeight: filter === g ? 600 : 400,
-            }}>
+            className={`px-4 py-[7px] rounded-full text-[13px] cursor-pointer transition-all duration-[180ms] ${
+              filter === g
+                ? "bg-[rgba(232,65,90,0.15)] border border-[rgba(232,65,90,0.5)] text-[#e8415a] font-semibold"
+                : "bg-transparent border border-[rgba(255,255,255,0.1)] text-text-secondary font-normal"
+            }`}>
             {g}
           </button>
         ))}
       </div>
 
-      <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))" }}>
+      <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(260px,1fr))]">
         {filtered.map(s => (
           <div key={s.id}
             className="bg-bg-card border border-white/[0.06] rounded-[22px] p-6 cursor-pointer transition-all duration-[250ms] hover:-translate-y-[5px] hover:shadow-[0_16px_50px_rgba(0,0,0,0.5),0_0_30px_rgba(200,48,90,0.08)]"

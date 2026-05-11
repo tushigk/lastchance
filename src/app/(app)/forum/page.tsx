@@ -108,7 +108,7 @@ export default function ForumPage() {
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-2">
-                  <span className="text-[13px] font-semibold" style={{ color: post.anon ? "var(--text-muted)" : "var(--text-primary)" }}>
+                  <span className={`text-[13px] font-semibold ${post.anon ? "text-text-muted" : "text-text-primary"}`}>
                     {post.author}
                   </span>
                   {post.anon && <span className="inline-flex items-center gap-1 px-[10px] py-1 rounded-full text-[9px] font-bold tracking-[0.05em] uppercase bg-[rgba(212,160,64,0.12)] text-[#e8b850] border border-[rgba(212,160,64,0.25)]">Нэргүй</span>}
@@ -126,8 +126,7 @@ export default function ForumPage() {
             <p className="text-sm text-text-secondary leading-[1.65] mb-3.5">{post.body}</p>
             <div className="flex gap-4 items-center">
               <button onClick={() => toggleLike(post.id)}
-                className="bg-transparent border-none cursor-pointer flex items-center gap-1.5 text-[13px] transition-colors duration-[180ms]"
-                style={{ color: liked.includes(post.id) ? "#e8415a" : "var(--text-muted)" }}>
+                className={`bg-transparent border-none cursor-pointer flex items-center gap-1.5 text-[13px] transition-colors duration-[180ms] ${liked.includes(post.id) ? "text-[#e8415a]" : "text-text-muted"}`}>
                 {liked.includes(post.id) ? "❤️" : "🤍"} {post.likes + (liked.includes(post.id) ? 1 : 0)}
               </button>
               <button className="bg-transparent border-none cursor-pointer flex items-center gap-1.5 text-[13px] text-text-muted">

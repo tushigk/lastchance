@@ -4,15 +4,15 @@ import { usePathname } from "next/navigation";
 import { Home, Heart, Drama, Users, MessageCircle, Gamepad2 } from "lucide-react";
 
 const NAV = [
-  { href: "/dashboard", icon: Home, label: "Нүүр" },
-  { href: "/dashboard/swipe", icon: Heart, label: "Танилцах" },
-  { href: "/dashboard/roleplay", icon: Drama, label: "Roleplay" },
-  { href: "/dashboard/forum", icon: Users, label: "Forum" },
-  { href: "/dashboard/chat", icon: MessageCircle, label: "Чат" },
-  { href: "/dashboard/games", icon: Gamepad2, label: "Тоглоом" },
+  { href: "/", icon: Home, label: "Нүүр" },
+  { href: "/swipe", icon: Heart, label: "Танилцах" },
+  { href: "/roleplay", icon: Drama, label: "Roleplay" },
+  { href: "/forum", icon: Users, label: "Forum" },
+  { href: "/chat", icon: MessageCircle, label: "Чат" },
+  { href: "/games", icon: Gamepad2, label: "Тоглоом" },
 ];
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   return (
@@ -32,7 +32,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   }`}>
                   <Icon size={17} strokeWidth={active ? 2.2 : 1.8} />
                   <span>{n.label}</span>
-                  {n.href === "/dashboard/games" && (
+                  {n.href === "/games" && (
                     <span className="ml-auto inline-flex items-center gap-1 px-[6px] py-0.5 rounded-full text-[9px] font-bold tracking-wide uppercase bg-[rgba(212,160,64,0.12)] text-[#e8b850] border border-[rgba(212,160,64,0.25)]">
                       Шинэ
                     </span>
@@ -49,8 +49,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <div className="px-3 py-2.5 flex items-center gap-2.5 rounded-lg cursor-pointer transition-colors duration-200 hover:bg-bg-elevated">
           <div className="relative">
             <div
-              className="w-[34px] h-[34px] rounded-full flex items-center justify-center text-sm font-bold text-white"
-              style={{ background: "linear-gradient(135deg, #e8415a, #9b59ff)" }}
+              className="w-[34px] h-[34px] rounded-full flex items-center justify-center text-sm font-bold text-white bg-[linear-gradient(135deg,#e8415a,#9b59ff)]"
             >М</div>
             <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green rounded-full border-2 border-bg-primary animate-glow-pulse" />
           </div>
@@ -76,11 +75,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           return (
             <Link key={n.href} href={n.href} className="no-underline">
               <div
-                className="flex flex-col items-center gap-[3px] px-2.5 py-1 rounded-[10px] transition-colors duration-[180ms]"
-                style={{ color: active ? "#e8415a" : "var(--text-muted)" }}
+                className={`flex flex-col items-center gap-[3px] px-2.5 py-1 rounded-[10px] transition-colors duration-[180ms] ${active ? "text-[#e8415a]" : "text-text-muted"}`}
               >
                 <Icon size={22} strokeWidth={active ? 2.2 : 1.6} />
-                <span className="text-[10px] tracking-[0.01em]" style={{ fontWeight: active ? 700 : 400 }}>{n.label}</span>
+                <span className={`text-[10px] tracking-[0.01em] ${active ? "font-bold" : "font-normal"}`}>{n.label}</span>
               </div>
             </Link>
           );

@@ -50,15 +50,13 @@ export default function AuthBanner() {
       {SLIDES.map((slide, i) => (
         <div
           key={slide.img}
-          className="absolute inset-0 transition-opacity duration-700"
-          style={{ opacity: i === idx ? 1 : 0 }}
+          className={`absolute inset-0 transition-opacity duration-700 ${i === idx ? "opacity-100" : "opacity-0"}`}
         >
           <Image
             src={slide.img}
             alt=""
             fill
-            className="object-cover"
-            style={{ filter: "blur(5px)", transform: "scale(1.08)" }}
+            className="object-cover blur-[5px] scale-[1.08]"
             priority={i === 0}
           />
         </div>
@@ -67,18 +65,16 @@ export default function AuthBanner() {
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/60" />
       {/* Bottom vignette */}
-      <div className="absolute bottom-0 left-0 right-0 h-2/3"
-        style={{ background: "linear-gradient(to top, rgba(4,2,8,0.95) 0%, transparent 100%)" }} />
+      <div className="absolute bottom-0 left-0 right-0 h-2/3 bg-[linear-gradient(to_top,rgba(4,2,8,0.95)_0%,transparent_100%)]" />
 
       {/* ── MOBILE layout ── */}
       <div className="md:hidden absolute inset-0 flex flex-col justify-between p-5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div
-              className="w-7 h-7 rounded-lg flex items-center justify-center text-sm font-black text-white shrink-0"
-              style={{ background: "linear-gradient(135deg, #d4365a, #9a1c3e)", fontFamily: "Playfair Display, serif" }}
+              className="w-7 h-7 rounded-lg flex items-center justify-center text-sm font-black text-white shrink-0 font-serif bg-[linear-gradient(135deg,#d4365a,#9a1c3e)]"
             >С</div>
-            <span className="text-sm font-bold" style={{ fontFamily: "Playfair Display, serif" }}>Солонго</span>
+            <span className="text-sm font-bold font-serif">Солонго</span>
           </div>
         </div>
 
@@ -87,7 +83,7 @@ export default function AuthBanner() {
             <span className="font-serif font-black text-white text-2xl leading-none">{s.name}</span>
             <span className="text-white/50 text-base">{s.age}</span>
           </div>
-          <p className="text-white/65 text-[12px] italic leading-snug line-clamp-1" style={{ fontFamily: "Playfair Display, serif" }}>
+          <p className="text-white/65 text-[12px] italic leading-snug line-clamp-1 font-serif">
             &ldquo;{s.quote}&rdquo;
           </p>
         </div>
@@ -97,16 +93,15 @@ export default function AuthBanner() {
       <div className="hidden md:flex absolute inset-0 flex-col px-10 py-12">
         <div className="flex items-center gap-2.5 mb-auto">
           <div
-            className="w-9 h-9 rounded-xl flex items-center justify-center text-lg font-black text-white shrink-0"
-            style={{ background: "linear-gradient(135deg, #d4365a, #9a1c3e)", fontFamily: "Playfair Display, serif", boxShadow: "0 4px 20px rgba(200,48,90,0.4)" }}
+            className="w-9 h-9 rounded-xl flex items-center justify-center text-lg font-black text-white shrink-0 font-serif bg-[linear-gradient(135deg,#d4365a,#9a1c3e)] shadow-[0_4px_20px_rgba(200,48,90,0.4)]"
           >С</div>
-          <span className="text-lg font-bold" style={{ fontFamily: "Playfair Display, serif" }}>Солонго</span>
+          <span className="text-lg font-bold font-serif">Солонго</span>
         </div>
 
         <div className={`mb-8 transition-all duration-350 ${animating ? "opacity-0 translate-y-3" : "opacity-100 translate-y-0"}`}>
           <div
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full mb-5 text-[11px] font-bold"
-            style={{ background: "rgba(0,0,0,0.35)", border: `1px solid ${s.dotColor}40`, color: s.dotColor, backdropFilter: "blur(8px)" }}
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full mb-5 text-[11px] font-bold backdrop-blur-[8px] bg-[rgba(0,0,0,0.35)]"
+            style={{ border: `1px solid ${s.dotColor}40`, color: s.dotColor }}
           >
             <div className="w-1.5 h-1.5 rounded-full" style={{ background: s.dotColor }} />
             {s.match}% нийцтэй
@@ -117,7 +112,7 @@ export default function AuthBanner() {
             <span className="text-white/50 text-xl font-light">{s.age}</span>
           </div>
 
-          <p className="text-white/70 leading-relaxed mb-5 text-[15px] italic" style={{ fontFamily: "Playfair Display, serif" }}>
+          <p className="text-white/70 leading-relaxed mb-5 text-[15px] italic font-serif">
             &ldquo;{s.quote}&rdquo;
           </p>
 
@@ -125,8 +120,7 @@ export default function AuthBanner() {
             {s.interests.map(t => (
               <span
                 key={t}
-                className="px-3 py-1 rounded-full text-[11px] font-semibold text-white/65"
-                style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)" }}
+                className="px-3 py-1 rounded-full text-[11px] font-semibold text-white/65 bg-[rgba(255,255,255,0.07)] border border-[rgba(255,255,255,0.12)]"
               >
                 {t}
               </span>

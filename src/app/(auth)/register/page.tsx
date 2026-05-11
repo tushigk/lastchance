@@ -72,12 +72,11 @@ export default function RegisterPage() {
                       key={g}
                       type="button"
                       onClick={() => setForm(p => ({ ...p, gender: g }))}
-                      className="flex-1 py-3.5 rounded-xl text-[13px] font-semibold transition-all duration-200 cursor-pointer"
-                      style={{
-                        border: form.gender === g ? "1.5px solid rgba(200,48,90,0.7)" : "1px solid rgba(255,255,255,0.08)",
-                        background: form.gender === g ? "rgba(200,48,90,0.1)" : "rgba(255,255,255,0.02)",
-                        color: form.gender === g ? "#e04878" : "var(--text-secondary)",
-                      }}
+                      className={`flex-1 py-3.5 rounded-xl text-[13px] font-semibold transition-all duration-200 cursor-pointer ${
+                        form.gender === g
+                          ? "border-[1.5px] border-[rgba(200,48,90,0.7)] bg-[rgba(200,48,90,0.1)] text-[#e04878]"
+                          : "border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] text-text-secondary"
+                      }`}
                     >
                       {g}
                     </button>
@@ -109,8 +108,7 @@ export default function RegisterPage() {
               <button
                 type="submit"
                 disabled={!canSubmit || loading}
-                className="w-full text-white border-none rounded-xl font-semibold text-[15px] cursor-pointer transition-all duration-200 py-3.5 mt-1 disabled:opacity-40 disabled:cursor-not-allowed hover:-translate-y-0.5"
-                style={{ background: "linear-gradient(135deg, #c8254a, #780f20)", boxShadow: "0 4px 24px rgba(200,48,90,0.35)" }}
+                className="w-full text-white border-none rounded-xl font-semibold text-[15px] cursor-pointer transition-all duration-200 py-3.5 mt-1 disabled:opacity-40 disabled:cursor-not-allowed hover:-translate-y-0.5 bg-[linear-gradient(135deg,#c8254a,#780f20)] shadow-[0_4px_24px_rgba(200,48,90,0.35)]"
               >
                 {loading ? "Бүртгэж байна..." : "Бүртгүүлэх"}
               </button>
