@@ -29,15 +29,17 @@ export default function ForumPage() {
   const filtered = cat === "hot" ? POSTS.filter(p => p.hot || p.likes > 100) : POSTS;
 
   return (
-    <div className="max-w-[820px] mx-auto">
-      <div className="flex items-center justify-between mb-7">
-        <div>
-          <h1 className="font-serif text-[26px] font-bold mb-1.5">Нийгэмлэгийн Forum</h1>
-          <p className="text-text-secondary text-sm">Санаа бодлоо чөлөөтэй хуваалц</p>
+    <div className="max-w-[820px] mx-auto w-full">
+
+      {/* Header */}
+      <div className="flex items-center justify-between gap-3 mb-6">
+        <div className="min-w-0">
+          <h1 className="font-serif text-[22px] font-bold leading-tight truncate">Нийгэмлэгийн Forum</h1>
+          <p className="text-text-secondary text-[13px] mt-0.5">Санаа бодлоо чөлөөтэй хуваалц</p>
         </div>
         <button
           onClick={() => setNewPost(true)}
-          className="bg-gradient-to-br from-[#d4365a] to-[#9a1c3e] text-white border-none rounded-[14px] font-semibold text-sm cursor-pointer transition-all duration-[220ms] shadow-[0_4px_20px_rgba(200,48,90,0.35)] hover:-translate-y-0.5 px-5 py-2.5"
+          className="shrink-0 text-white border-none rounded-[12px] font-semibold text-[13px] cursor-pointer transition-all duration-[220ms] shadow-[0_4px_20px_rgba(200,48,90,0.35)] hover:-translate-y-0.5 px-4 py-2.5 bg-[linear-gradient(135deg,#d4365a,#9a1c3e)]"
         >
           ✏️ Бичих
         </button>
@@ -45,42 +47,42 @@ export default function ForumPage() {
 
       {/* New post modal */}
       {newPost && (
-        <div className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center backdrop-blur-[8px] p-6">
-          <div className="bg-[rgba(17,14,30,0.88)] backdrop-blur-[24px] border border-white/[0.06] rounded-[32px] p-8 w-full max-w-[560px]">
-            <h3 className="font-serif text-[22px] font-bold mb-5">Шинэ бичлэг</h3>
-            <div className="flex flex-col gap-3.5">
+        <div className="fixed inset-0 z-[100] bg-black/80 flex items-end sm:items-center justify-center backdrop-blur-[8px] p-4">
+          <div className="bg-[rgba(17,14,30,0.97)] border border-white/[0.06] rounded-[24px] p-6 w-full max-w-[560px]">
+            <h3 className="font-serif text-[20px] font-bold mb-5">Шинэ бичлэг</h3>
+            <div className="flex flex-col gap-3">
               <input
-                className="bg-[rgba(11,9,20,0.8)] border border-white/[0.08] text-text-primary px-4 py-3 rounded-lg font-[inherit] text-sm outline-none w-full placeholder:text-text-muted focus:border-accent focus:shadow-[0_0_0_3px_rgba(200,48,90,0.12)] transition-[border-color,box-shadow] duration-200"
+                className="bg-[rgba(11,9,20,0.8)] border border-white/[0.08] text-text-primary px-4 py-3 rounded-xl text-[14px] outline-none w-full placeholder:text-text-muted"
                 placeholder="Гарчиг..."
               />
               <textarea
-                className="bg-[rgba(11,9,20,0.8)] border border-white/[0.08] text-text-primary px-4 py-3 rounded-lg font-[inherit] text-sm outline-none w-full placeholder:text-text-muted focus:border-accent focus:shadow-[0_0_0_3px_rgba(200,48,90,0.12)] transition-[border-color,box-shadow] duration-200 resize-y"
+                className="bg-[rgba(11,9,20,0.8)] border border-white/[0.08] text-text-primary px-4 py-3 rounded-xl text-[14px] outline-none w-full placeholder:text-text-muted resize-none"
                 placeholder="Бичлэгийн агуулга..."
-                rows={5}
+                rows={4}
               />
               <label className="flex items-center gap-2 cursor-pointer text-[13px] text-text-secondary">
                 <input type="checkbox" /> Нэргүй нийтлэх
               </label>
-              <div className="flex gap-2.5 justify-end">
-                <button
-                  onClick={() => setNewPost(false)}
-                  className="bg-transparent text-text-primary border border-white/[0.12] rounded-[14px] font-medium text-sm cursor-pointer transition-all duration-[220ms] hover:bg-[rgba(200,48,90,0.08)] hover:border-accent/50 hover:text-accent-light px-7 py-3"
-                >Болих</button>
-                <button
-                  onClick={() => setNewPost(false)}
-                  className="bg-gradient-to-br from-[#d4365a] to-[#9a1c3e] text-white border-none rounded-[14px] font-semibold text-sm cursor-pointer transition-all duration-[220ms] shadow-[0_4px_20px_rgba(200,48,90,0.35)] hover:-translate-y-0.5 px-7 py-3"
-                >Нийтлэх</button>
+              <div className="flex gap-2 justify-end mt-1">
+                <button onClick={() => setNewPost(false)}
+                  className="bg-transparent text-text-primary border border-white/[0.12] rounded-xl font-medium text-[13px] cursor-pointer px-5 py-2.5">
+                  Болих
+                </button>
+                <button onClick={() => setNewPost(false)}
+                  className="text-white border-none rounded-xl font-semibold text-[13px] cursor-pointer px-5 py-2.5 bg-[linear-gradient(135deg,#d4365a,#9a1c3e)]">
+                  Нийтлэх
+                </button>
               </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* Categories */}
-      <div className="flex gap-2 flex-wrap mb-5">
+      {/* Categories — horizontal scroll on mobile */}
+      <div className="flex gap-2 overflow-x-auto pb-1 mb-5 min-w-0" style={{ scrollbarWidth: "none" }}>
         {CATEGORIES.map(c => (
           <button key={c.id} onClick={() => setCat(c.id)}
-            className="px-4 py-[7px] rounded-full text-[13px] cursor-pointer transition-all duration-[180ms]"
+            className="px-3.5 py-[6px] rounded-full text-[13px] cursor-pointer transition-all duration-[180ms] shrink-0 whitespace-nowrap"
             style={{
               background: cat === c.id ? `${c.color}18` : "transparent",
               border: cat === c.id ? `1px solid ${c.color}50` : "1px solid rgba(255,255,255,0.1)",
@@ -95,10 +97,11 @@ export default function ForumPage() {
       {/* Posts */}
       <div className="flex flex-col gap-3">
         {filtered.map(post => (
-          <div key={post.id} className="bg-bg-card border border-white/[0.05] rounded-[14px] p-5 transition-all duration-200 hover:border-[rgba(200,48,90,0.2)] hover:bg-bg-elevated hover:shadow-[0_4px_24px_rgba(0,0,0,0.3)]">
-            {/* Author */}
+          <div key={post.id} className="bg-bg-card border border-white/[0.05] rounded-[14px] p-4 transition-all duration-200 hover:border-[rgba(200,48,90,0.2)] overflow-hidden min-w-0">
+
+            {/* Author row */}
             <div className="flex items-center gap-2.5 mb-3">
-              <div className="w-[34px] h-[34px] rounded-full flex items-center justify-center text-[13px] font-bold shrink-0"
+              <div className="w-8 h-8 rounded-full flex items-center justify-center text-[12px] font-bold shrink-0"
                 style={{
                   background: post.anon ? "rgba(255,255,255,0.08)" : `${post.authorColor}22`,
                   border: `1px solid ${post.anon ? "rgba(255,255,255,0.1)" : `${post.authorColor}40`}`,
@@ -106,35 +109,44 @@ export default function ForumPage() {
                 }}>
                 {post.avatar}
               </div>
-              <div className="flex-1">
-                <div className="flex items-center gap-2">
-                  <span className={`text-[13px] font-semibold ${post.anon ? "text-text-muted" : "text-text-primary"}`}>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <span className={`text-[13px] font-semibold truncate ${post.anon ? "text-text-muted" : "text-text-primary"}`}>
                     {post.author}
                   </span>
-                  {post.anon && <span className="inline-flex items-center gap-1 px-[10px] py-1 rounded-full text-[9px] font-bold tracking-[0.05em] uppercase bg-[rgba(212,160,64,0.12)] text-[#e8b850] border border-[rgba(212,160,64,0.25)]">Нэргүй</span>}
-                  {post.hot && <span className="inline-flex items-center gap-1 px-[10px] py-1 rounded-full text-[9px] font-bold tracking-[0.05em] uppercase bg-[rgba(200,48,90,0.15)] text-[#e04878] border border-[rgba(200,48,90,0.3)]">🔥 Халуун</span>}
+                  {post.anon && (
+                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wide bg-[rgba(212,160,64,0.12)] text-[#e8b850] border border-[rgba(212,160,64,0.25)] shrink-0">
+                      Нэргүй
+                    </span>
+                  )}
+                  {post.hot && (
+                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wide bg-[rgba(200,48,90,0.15)] text-[#e04878] border border-[rgba(200,48,90,0.3)] shrink-0">
+                      🔥 Халуун
+                    </span>
+                  )}
                 </div>
                 <div className="text-[11px] text-text-muted">{post.time}</div>
               </div>
-              <div className="flex gap-1.5">
-                {post.tags.map(t => (
-                  <span key={t} className="px-2 py-[3px] rounded-full text-[11px] bg-white/[0.06] text-text-muted">{t}</span>
-                ))}
-              </div>
             </div>
-            <h3 className="text-base font-bold mb-2 font-serif">{post.title}</h3>
-            <p className="text-sm text-text-secondary leading-[1.65] mb-3.5">{post.body}</p>
-            <div className="flex gap-4 items-center">
-              <button onClick={() => toggleLike(post.id)}
-                className={`bg-transparent border-none cursor-pointer flex items-center gap-1.5 text-[13px] transition-colors duration-[180ms] ${liked.includes(post.id) ? "text-[#e8415a]" : "text-text-muted"}`}>
-                {liked.includes(post.id) ? "❤️" : "🤍"} {post.likes + (liked.includes(post.id) ? 1 : 0)}
-              </button>
-              <button className="bg-transparent border-none cursor-pointer flex items-center gap-1.5 text-[13px] text-text-muted">
-                💬 {post.comments} хариулт
-              </button>
-              <button className="bg-transparent border-none cursor-pointer text-[13px] text-text-muted ml-auto">
-                🔗 Хуваалцах
-              </button>
+
+            {/* Content */}
+            <h3 className="text-[15px] font-bold mb-1.5 font-serif leading-snug">{post.title}</h3>
+            <p className="text-[13px] text-text-secondary leading-relaxed mb-3 line-clamp-2">{post.body}</p>
+
+            {/* Tags + actions */}
+            <div className="flex items-center gap-2 flex-wrap">
+              {post.tags.map(t => (
+                <span key={t} className="px-2 py-0.5 rounded-full text-[11px] bg-white/[0.06] text-text-muted shrink-0">{t}</span>
+              ))}
+              <div className="flex gap-3 ml-auto shrink-0">
+                <button onClick={() => toggleLike(post.id)}
+                  className={`bg-transparent border-none cursor-pointer flex items-center gap-1 text-[13px] transition-colors duration-[180ms] ${liked.includes(post.id) ? "text-[#e8415a]" : "text-text-muted"}`}>
+                  {liked.includes(post.id) ? "❤️" : "🤍"} {post.likes + (liked.includes(post.id) ? 1 : 0)}
+                </button>
+                <button className="bg-transparent border-none cursor-pointer flex items-center gap-1 text-[13px] text-text-muted">
+                  💬 {post.comments}
+                </button>
+              </div>
             </div>
           </div>
         ))}

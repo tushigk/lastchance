@@ -16,7 +16,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   return (
-    <div className="flex min-h-screen bg-bg-primary">
+    <div className="flex min-h-screen bg-bg-primary w-full overflow-x-hidden">
 
       <aside className="hidden md:flex w-[230px] shrink-0 fixed top-14 left-0 bottom-0 z-40 bg-bg-secondary border-r border-white/[0.05] flex-col py-5 px-3">
         <nav className="flex-1 flex flex-col gap-0.5">
@@ -63,7 +63,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* Main content — offset for global header (pt-14) and sidebar */}
-      <main className="flex-1 md:ml-[230px] min-h-screen flex flex-col pt-14 pb-[72px] md:pb-0">
+      <main className="flex-1 md:ml-[230px] min-h-screen flex flex-col pt-14 pb-[72px] md:pb-0 min-w-0 overflow-x-hidden">
         <div className="p-5 md:p-7 flex-1">{children}</div>
       </main>
 
