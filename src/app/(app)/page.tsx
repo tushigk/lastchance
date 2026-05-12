@@ -12,13 +12,11 @@ export default function DashboardPage() {
   return (
     <div className="max-w-[860px] mx-auto">
 
-      {/* Ambient orbs */}
       <div className="pointer-events-none fixed top-16 right-0 w-[500px] h-[500px] rounded-full opacity-40 animate-orb-drift"
         style={{ background: "radial-gradient(circle, rgba(200,37,74,0.16) 0%, transparent 70%)" }} />
       <div className="pointer-events-none fixed bottom-20 left-[160px] w-[400px] h-[400px] rounded-full opacity-30 animate-orb-drift-rev"
         style={{ background: "radial-gradient(circle, rgba(139,79,212,0.13) 0%, transparent 70%)" }} />
 
-      {/* Greeting */}
       <div className="mb-8">
         <h1 className="text-[28px] font-black font-serif mb-1 leading-tight">
           Сайн байна уу, <span style={{ color: "#e8415a" }}>munkh_22</span> 👋
@@ -26,7 +24,6 @@ export default function DashboardPage() {
         <p className="text-text-secondary text-[15px]">Өнөөдөр таныг <strong className="text-text-primary">12 хүн</strong> үзсэн байна.</p>
       </div>
 
-      {/* Stats row */}
       <div className="grid grid-cols-3 gap-3 mb-6">
         {STATS.map((s, i) => (
           <div key={i} className="rounded-2xl px-4 py-4 text-center border"
@@ -40,7 +37,6 @@ export default function DashboardPage() {
         ))}
       </div>
 
-      {/* Primary CTA */}
       <Link href="/swipe" className="block mb-6">
         <div className="rounded-2xl px-6 py-5 flex items-center justify-between relative overflow-hidden border transition-all duration-200 hover:-translate-y-0.5"
           style={{
@@ -61,7 +57,6 @@ export default function DashboardPage() {
         </div>
       </Link>
 
-      {/* Streak pill */}
       <div className="flex items-center gap-3 px-5 py-3.5 rounded-2xl border"
         style={{
           background: "rgba(232,65,90,0.07)",

@@ -45,7 +45,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
         <div className="h-px bg-white/[0.05] my-4" />
 
-        {/* User */}
         <div className="px-3 py-2.5 flex items-center gap-2.5 rounded-lg cursor-pointer transition-colors duration-200 hover:bg-bg-elevated">
           <div className="relative">
             <div
@@ -62,12 +61,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </div>
       </aside>
 
-      {/* Main content — offset for global header (pt-14) and sidebar */}
       <main className="flex-1 md:ml-[230px] min-h-screen flex flex-col pt-14 pb-[72px] md:pb-0 min-w-0 overflow-x-hidden">
         <div className="p-5 md:p-7 flex-1">{children}</div>
       </main>
 
-      {/* Mobile bottom navigation */}
       <nav className="flex md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[rgba(12,9,25,0.97)] backdrop-blur-[24px] border-t border-[rgba(158,24,56,0.15)] py-1.5 justify-around items-center">
         {NAV.map(n => {
           const Icon = n.icon;
