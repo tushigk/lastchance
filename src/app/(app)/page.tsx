@@ -10,7 +10,7 @@ const STATS = [
 
 export default function DashboardPage() {
   return (
-    <div className="max-w-[720px] mx-auto">
+    <div className="max-w-[860px] mx-auto">
 
       {/* Ambient orbs */}
       <div className="pointer-events-none fixed top-16 right-0 w-[500px] h-[500px] rounded-full opacity-40 animate-orb-drift"

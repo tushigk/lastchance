@@ -34,7 +34,7 @@ export default function RoleplayPage() {
   if (active !== null) {
     const scenario = SCENARIOS.find(s => s.id === active)!;
     return (
-      <div className="max-w-[720px] mx-auto flex flex-col h-[calc(100vh-180px)]">
+      <div className="max-w-[860px] mx-auto flex flex-col h-[calc(100vh-180px)]">
         <div className="bg-bg-card border border-white/[0.06] rounded-[22px] p-4 mb-4 flex items-center gap-3.5">
           <button onClick={() => setActive(null)}
             className="bg-transparent border border-white/[0.1] rounded-full w-[34px] h-[34px] cursor-pointer text-text-secondary text-base flex items-center justify-center">←</button>
@@ -91,7 +91,7 @@ export default function RoleplayPage() {
   }
 
   return (
-    <div className="max-w-[900px] mx-auto">
+    <div className="max-w-[860px] mx-auto">
       <div className="mb-7">
         <h1 className="font-serif text-[26px] font-bold mb-1.5">Roleplay Орон</h1>
         <p className="text-text-secondary text-sm">Дуртай дүрээрээ орж, AI-тай хамтаар туршилт хий</p>

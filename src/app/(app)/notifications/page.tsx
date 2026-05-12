@@ -93,7 +93,7 @@ export default function NotificationsPage() {
   const read = NOTIFICATIONS.filter(n => n.read);
 
   return (
-    <div className="max-w-[600px] mx-auto">
+    <div className="max-w-[860px] mx-auto">
       <div className="mb-7">
         <h1 className="text-[24px] font-black font-serif mb-1">Мэдэгдэл</h1>
         <p className="text-text-secondary text-[14px]">{unread.length} шинэ мэдэгдэл байна</p>

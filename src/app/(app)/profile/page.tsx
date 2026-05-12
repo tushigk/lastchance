@@ -25,7 +25,7 @@ export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState<"info" | "settings">("info");
 
   return (
-    <div className="max-w-[640px] mx-auto">
+    <div className="max-w-[860px] mx-auto">
 
       {/* Profile card */}
       <div className="rounded-3xl overflow-hidden mb-5 relative border"

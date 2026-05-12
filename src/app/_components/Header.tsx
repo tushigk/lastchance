@@ -13,7 +13,7 @@ export default function Header() {
   const isLoggedIn = !pathname.startsWith("/auth");
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between h-16 px-[clamp(16px,4vw,56px)] bg-[rgba(4,2,8,0.7)] backdrop-blur-[32px] backdrop-saturate-[1.4] border-b border-[rgba(255,255,255,0.04)]">
+    <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between h-16 pl-3.5 pr-5 md:pr-7 bg-[rgba(4,2,8,0.7)] backdrop-blur-[32px] backdrop-saturate-[1.4] border-b border-[rgba(255,255,255,0.04)]">
       <Link href="/" className="flex items-center gap-2.5 no-underline">
         <div className="w-8 h-8 rounded-[9px] flex items-center justify-center text-[15px] font-black text-white shrink-0 font-serif bg-[linear-gradient(135deg,#c8254a,#780f20)] shadow-[0_4px_20px_rgba(158,24,56,0.45)]">С</div>
         <span className="text-[17px] font-bold tracking-[-0.02em] text-text-primary font-serif">Intimate</span>

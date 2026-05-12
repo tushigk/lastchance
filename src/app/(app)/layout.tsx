@@ -18,7 +18,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen bg-bg-primary w-full overflow-x-hidden">
 
-      <aside className="hidden md:flex w-[230px] shrink-0 fixed top-14 left-0 bottom-0 z-40 bg-bg-secondary border-r border-white/[0.05] flex-col py-5 px-3">
+      <aside className="hidden md:flex w-[230px] shrink-0 fixed top-16 left-0 bottom-0 z-40 bg-bg-secondary border-r border-white/[0.05] flex-col py-5 px-3">
         <nav className="flex-1 flex flex-col gap-0.5">
           {NAV.map(n => {
             const active = pathname === n.href;

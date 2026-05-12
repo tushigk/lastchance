@@ -29,7 +29,7 @@ export default function ForumPage() {
   const filtered = cat === "hot" ? POSTS.filter(p => p.hot || p.likes > 100) : POSTS;
 
   return (
-    <div className="max-w-[820px] mx-auto w-full">
+    <div className="max-w-[860px] mx-auto w-full">
 
       {/* Header */}
       <div className="flex items-center justify-between gap-3 mb-6">
