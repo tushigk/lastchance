@@ -74,10 +74,6 @@ export default function UserProfilePage() {
   const displayName = profile.name ?? profile.username ?? "Хэрэглэгч";
   const avatarSrc = resolveAvatar(profile.avatar);
   const avatarLetter = displayName[0].toUpperCase();
-  const expPercent = profile.level && profile.nextLevel
-    ? Math.min(100, Math.round(((profile.exp ?? 0) - (profile.level.requiredExp ?? 0)) /
-        ((profile.nextLevel.requiredExp ?? 1) - (profile.level.requiredExp ?? 0)) * 100))
-    : 0;
 
   return (
     <div className="max-w-[860px] mx-auto pb-12 w-full">
@@ -129,20 +125,6 @@ export default function UserProfilePage() {
                 </span>
               )}
             </div>
-
-            {/* EXP bar */}
-            {profile.level && profile.nextLevel && (
-              <div className="max-w-[280px] mx-auto md:mx-0">
-                <div className="flex justify-between text-[11px] text-text-muted mb-1">
-                  <span className="flex items-center gap-1"><Zap size={10} /> {profile.exp ?? 0} XP</span>
-                  <span>Lv.{profile.nextLevel.level} хүртэл {profile.nextLevel.requiredExp - (profile.exp ?? 0)} XP</span>
-                </div>
-                <div className="h-1.5 rounded-full bg-white/[0.07] overflow-hidden">
-                  <div className="h-full rounded-full transition-all"
-                    style={{ width: `${expPercent}%`, background: "linear-gradient(90deg, #e8b850, #c8254a)" }} />
-                </div>
-              </div>
-            )}
           </div>
 
           {/* Action Buttons */}

@@ -182,6 +182,11 @@ export const swipeApi = {
 
   getLikes: () =>
     request<{ data: { _id: string; likedAt: string; user: SwipeUser }[]; total: number }>("/swipes/likes?limit=6"),
+
+  getLikesFull: (page = 1, limit = 20) =>
+    request<{ data: { _id: string; likedAt: string; user: SwipeUser }[]; total: number; page: number; totalPages: number }>(
+      `/swipes/likes?page=${page}&limit=${limit}`
+    ),
 };
 
 export interface NetworkPostAuthor {
