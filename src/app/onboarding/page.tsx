@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, Check, Search } from "lucide-react";
+import { ChevronLeft, ChevronRight, Check, Search, Loader2 } from "lucide-react";
+import { profileApi } from "@/lib/api";
 
 const TOTAL_STEPS = 4;
 
@@ -24,9 +25,33 @@ export default function OnboardingPage() {
   const [step, setStep] = useState(1);
   const [data, setData] = useState<FormData>(INITIAL);
   const [done, setDone] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const progress = (step / TOTAL_STEPS) * 100;
-  const next = () => step < TOTAL_STEPS ? setStep(s => s + 1) : setDone(true);
+
+  const next = async () => {
+    if (step < TOTAL_STEPS) {
+      setStep(s => s + 1);
+      return;
+    }
+    setLoading(true);
+    setError("");
+    try {
+      await profileApi.updateMyProfile({
+        city: data.city || undefined,
+        birthYear: data.birthYear ? Number(data.birthYear) : undefined,
+        bio: data.bio || undefined,
+        interests: data.interests.length > 0 ? data.interests : undefined,
+      });
+      setDone(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Алдаа гарлаа");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const back = () => step > 1 && setStep(s => s - 1);
   const set = (key: keyof FormData, val: string) => setData(d => ({ ...d, [key]: val }));
   const toggleInterest = (t: string) =>
@@ -65,20 +90,24 @@ export default function OnboardingPage() {
       </div>
 
       {/* Nav */}
-      <div className="sticky bottom-0 px-5 py-4 flex gap-3 max-w-[480px] mx-auto w-full bg-bg-primary border-t border-[rgba(255,255,255,0.05)]">
-        {step > 1 && (
-          <button onClick={back}
-            className="w-11 h-11 rounded-xl flex items-center justify-center border transition-colors duration-200 hover:bg-[rgba(255,255,255,0.05)]"
-            style={{ border: "1px solid rgba(255,255,255,0.1)" }}>
-            <ChevronLeft size={18} strokeWidth={2} className="text-text-secondary" />
+      <div className="sticky bottom-0 px-5 py-4 max-w-[480px] mx-auto w-full bg-bg-primary border-t border-[rgba(255,255,255,0.05)]">
+        {error && <p className="text-[12px] text-[#e04878] text-center mb-3">{error}</p>}
+        <div className="flex gap-3">
+          {step > 1 && (
+            <button onClick={back} disabled={loading}
+              className="w-11 h-11 rounded-xl flex items-center justify-center border transition-colors duration-200 hover:bg-[rgba(255,255,255,0.05)] disabled:opacity-40"
+              style={{ border: "1px solid rgba(255,255,255,0.1)" }}>
+              <ChevronLeft size={18} strokeWidth={2} className="text-text-secondary" />
+            </button>
+          )}
+          <button onClick={next} disabled={loading}
+            className="flex-1 h-11 rounded-xl font-semibold text-[14px] text-white flex items-center justify-center gap-2 transition-all duration-200 hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed"
+            style={{ background: "linear-gradient(135deg, #e8415a, #9e1838)", boxShadow: "0 4px 20px rgba(200,37,74,0.4)" }}>
+            {loading ? <Loader2 size={16} className="animate-spin" /> : null}
+            {loading ? "Хадгалж байна..." : step === TOTAL_STEPS ? "Дуусгах" : "Үргэлжлүүлэх"}
+            {!loading && <ChevronRight size={16} strokeWidth={2.5} />}
           </button>
-        )}
-        <button onClick={next}
-          className="flex-1 h-11 rounded-xl font-semibold text-[14px] text-white flex items-center justify-center gap-2 transition-all duration-200 hover:-translate-y-0.5"
-          style={{ background: "linear-gradient(135deg, #e8415a, #9e1838)", boxShadow: "0 4px 20px rgba(200,37,74,0.4)" }}>
-          {step === TOTAL_STEPS ? "Дуусгах" : "Үргэлжлүүлэх"}
-          <ChevronRight size={16} strokeWidth={2.5} />
-        </button>
+        </div>
       </div>
     </div>
   );

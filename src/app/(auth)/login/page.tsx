@@ -4,17 +4,28 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import AuthBanner from "../_components/AuthBanner";
+import { useAuth } from "@/store/AuthProvider";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { login } = useAuth();
   const [form, setForm] = useState({ phone: "", password: "" });
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => { router.push("/dashboard"); }, 1200);
+    setError("");
+    try {
+      await login({ phone: form.phone });
+      router.push("/");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Нэвтрэх амжилтгүй болсон");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const inputCls = "w-full bg-white/[0.04] border border-white/[0.08] text-text-primary px-4 py-3.5 rounded-xl text-sm outline-none transition-all duration-200 placeholder:text-text-muted focus:border-[rgba(200,48,90,0.5)] focus:bg-white/[0.06] focus:shadow-[0_0_0_3px_rgba(200,48,90,0.1)]";
@@ -71,6 +82,10 @@ export default function LoginPage() {
                   </button>
                 </div>
               </div>
+
+              {error && (
+                <p className="text-[13px] text-[#e04878] text-center -mt-1">{error}</p>
+              )}
 
               <button
                 type="submit"

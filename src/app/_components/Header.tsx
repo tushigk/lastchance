@@ -2,15 +2,18 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Bell } from "lucide-react";
+import { useAuth } from "@/store/AuthProvider";
 
 const NOTIF_COUNT = 4;
 
 export default function Header() {
   const pathname = usePathname();
+  const { user } = useAuth();
 
   if (pathname.startsWith("/login") || pathname.startsWith("/register")) return null;
 
-  const isLoggedIn = !pathname.startsWith("/login") && !pathname.startsWith("/register");
+  const isLoggedIn = !!user;
+  const avatarLetter = (user?.name ?? user?.phone ?? "М").charAt(0).toUpperCase();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between h-16 pl-3.5 pr-5 md:pr-7 bg-[rgba(4,2,8,0.7)] backdrop-blur-[32px] backdrop-saturate-[1.4] border-b border-[rgba(255,255,255,0.04)]">
@@ -32,19 +35,21 @@ export default function Header() {
             </div>
           </Link>
           <Link href="/profile" className="no-underline">
-            <div className="w-9 h-9 rounded-full flex items-center justify-center text-[14px] font-bold text-white cursor-pointer transition-opacity duration-200 hover:opacity-80 bg-[linear-gradient(135deg,#e8415a,#9b59ff)] shadow-[0_2px_12px_rgba(200,37,74,0.35)]">
-              М
+            <div className="w-9 h-9 rounded-full overflow-hidden flex items-center justify-center text-[14px] font-bold text-white cursor-pointer transition-opacity duration-200 hover:opacity-80 bg-[linear-gradient(135deg,#e8415a,#9b59ff)] shadow-[0_2px_12px_rgba(200,37,74,0.35)]">
+              {user?.avatar
+                ? <img src={user.avatar} alt="avatar" className="w-full h-full object-cover" />
+                : avatarLetter}
             </div>
           </Link>
         </div>
       ) : (
         <div className="flex items-center gap-2">
-          <Link href="/auth/login">
+          <Link href="/login">
             <button className="text-text-secondary border border-white/[0.07] rounded-[12px] font-medium text-[13px] cursor-pointer transition-all duration-200 hover:text-text-primary hover:border-white/[0.14] px-5 py-[9px] bg-transparent">
               Нэвтрэх
             </button>
           </Link>
-          <Link href="/auth/register">
+          <Link href="/register">
             <button className="text-white border-none rounded-[12px] font-semibold text-[13px] cursor-pointer transition-all duration-200 hover:-translate-y-px px-5 py-[9px] bg-[linear-gradient(135deg,#c8254a,#780f20)] shadow-[0_4px_22px_rgba(158,24,56,0.38)]">
               Бүртгүүлэх
             </button>

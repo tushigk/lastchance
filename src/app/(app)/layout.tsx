@@ -1,8 +1,10 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { Home, Heart, Drama, Users, MessageCircle, Gamepad2 } from "lucide-react";
 import AgeVerification from "@/components/AgeVerification";
+import { useAuth } from "@/store/AuthProvider";
 
 const NAV = [
   { href: "/", icon: Home, label: "Нүүр" },
@@ -15,6 +17,26 @@ const NAV = [
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const { user, loading, membershipActive } = useAuth();
+
+  const displayName = user?.name ?? user?.phone ?? "Хэрэглэгч";
+  const avatarLetter = displayName.charAt(0).toUpperCase();
+
+  useEffect(() => {
+    if (loading) return;
+    if (!user) {
+      router.replace("/login");
+      return;
+    }
+    if (!membershipActive) {
+      router.replace("/pricing");
+    }
+  }, [loading, user, membershipActive, pathname, router]);
+
+  if (loading) return null;
+  if (!user) return null;
+  if (!membershipActive) return null;
 
   return (
     <div className="flex min-h-screen bg-bg-primary w-full overflow-x-hidden">
@@ -50,14 +72,19 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <div className="px-3 py-2.5 flex items-center gap-2.5 rounded-lg cursor-pointer transition-colors duration-200 hover:bg-bg-elevated">
           <div className="relative">
             <div
-              className="w-[34px] h-[34px] rounded-full flex items-center justify-center text-sm font-bold text-white bg-[linear-gradient(135deg,#e8415a,#9b59ff)]"
-            >М</div>
+              className="w-[34px] h-[34px] rounded-full overflow-hidden flex items-center justify-center text-sm font-bold text-white bg-[linear-gradient(135deg,#e8415a,#9b59ff)]"
+            >{user?.avatar
+              ? <img src={user.avatar} alt="avatar" className="w-full h-full object-cover" />
+              : avatarLetter}</div>
             <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green rounded-full border-2 border-bg-primary animate-glow-pulse" />
           </div>
           <div className="flex-1 min-w-0">
-            <div className="text-[13px] font-semibold truncate">munkh_22</div>
+            <div className="text-[13px] font-semibold truncate">{displayName}</div>
             <div className="text-[11px] text-text-muted">
-              <span className="inline-flex items-center gap-1 px-[6px] py-0.5 rounded-full text-[9px] font-bold tracking-wide uppercase bg-[rgba(212,160,64,0.12)] text-[#e8b850] border border-[rgba(212,160,64,0.25)]">PRO</span>
+              {membershipActive
+                ? <span className="inline-flex items-center gap-1 px-[6px] py-0.5 rounded-full text-[9px] font-bold tracking-wide uppercase bg-[rgba(212,160,64,0.12)] text-[#e8b850] border border-[rgba(212,160,64,0.25)]">PRO</span>
+                : <span className="inline-flex items-center gap-1 px-[6px] py-0.5 rounded-full text-[9px] font-bold tracking-wide uppercase bg-[rgba(200,37,74,0.1)] text-[#e04878] border border-[rgba(200,37,74,0.2)]">Upgrade</span>
+              }
             </div>
           </div>
         </div>

@@ -4,22 +4,43 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import AuthBanner from "../_components/AuthBanner";
+import { useAuth } from "@/store/AuthProvider";
 
 const GENDERS = ["Эрэгтэй", "Эмэгтэй", "Бусад"];
 
+const GENDER_MAP: Record<string, string> = {
+  "Эрэгтэй": "male",
+  "Эмэгтэй": "female",
+  "Бусад": "other",
+};
+
 export default function RegisterPage() {
   const router = useRouter();
+  const { register } = useAuth();
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [form, setForm] = useState({ name: "", phone: "", password: "", gender: "" });
 
-  const canSubmit = form.name.length >= 2 && form.phone.length >= 8 && form.password.length >= 6 && !!form.gender;
+  const canSubmit = form.name.length >= 2 && form.phone.length >= 8 && form.password.length >= 4 && !!form.gender;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!canSubmit) return;
     setLoading(true);
-    setTimeout(() => { router.push("/pricing"); }, 1200);
+    setError("");
+    try {
+      await register({
+        phone: form.phone,
+        name: form.name,
+        gender: GENDER_MAP[form.gender] ?? form.gender,
+      });
+      router.push("/pricing");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Бүртгэл амжилтгүй болсон");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const inputCls = "w-full bg-white/[0.04] border border-white/[0.08] text-text-primary px-4 py-3.5 rounded-xl text-sm outline-none transition-all duration-200 placeholder:text-text-muted focus:border-[rgba(200,48,90,0.5)] focus:bg-white/[0.06] focus:shadow-[0_0_0_3px_rgba(200,48,90,0.1)]";
@@ -72,11 +93,10 @@ export default function RegisterPage() {
                       key={g}
                       type="button"
                       onClick={() => setForm(p => ({ ...p, gender: g }))}
-                      className={`flex-1 py-3.5 rounded-xl text-[13px] font-semibold transition-all duration-200 cursor-pointer ${
-                        form.gender === g
+                      className={`flex-1 py-3.5 rounded-xl text-[13px] font-semibold transition-all duration-200 cursor-pointer ${form.gender === g
                           ? "border-[1.5px] border-[rgba(200,48,90,0.7)] bg-[rgba(200,48,90,0.1)] text-[#e04878]"
                           : "border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] text-text-secondary"
-                      }`}
+                        }`}
                     >
                       {g}
                     </button>
@@ -104,6 +124,10 @@ export default function RegisterPage() {
                   </button>
                 </div>
               </div>
+
+              {error && (
+                <p className="text-[13px] text-[#e04878] text-center -mt-1">{error}</p>
+              )}
 
               <button
                 type="submit"
