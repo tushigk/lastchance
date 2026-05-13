@@ -14,7 +14,7 @@ interface ActiveInvoice {
 
 export default function PricingPage() {
   const router = useRouter();
-  const { refreshMembership } = useAuth();
+  const { refreshUser } = useAuth();
   const [plans, setPlans] = useState<MembershipPlan[]>([]);
   const [plansLoading, setPlansLoading] = useState(true);
   const [selected, setSelected] = useState<string>("");
@@ -53,7 +53,7 @@ export default function PricingPage() {
           invoice={activeInvoice.invoice}
           membershipId={activeInvoice.membershipId}
           plan={activeInvoice.plan}
-          onPaid={async () => { await refreshMembership(); router.push("/onboarding"); }}
+          onPaid={async () => { await refreshUser(); router.push("/onboarding"); }}
           onClose={() => setActiveInvoice(null)}
         />
       )}

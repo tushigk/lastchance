@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "./_components/Header";
-import SplashScreen from "@/components/SplashScreen";
 import { AuthProvider } from "@/store/AuthProvider";
+import AuthLoadingGate from "@/components/AuthLoadingGate";
 
 export const metadata: Metadata = {
   title: "Intimate | Монголын Premium Нийгэмлэг",
@@ -19,9 +19,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <AuthProvider>
-          <SplashScreen />
-          <Header />
-          {children}
+          <AuthLoadingGate>
+            <Header />
+            {children}
+          </AuthLoadingGate>
         </AuthProvider>
       </body>
     </html>

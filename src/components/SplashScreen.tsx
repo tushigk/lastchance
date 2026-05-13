@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-export default function SplashScreen() {
+export default function SplashScreen({ onDone }: { onDone?: () => void } = {}) {
   const [show, setShow] = useState(false);
   const [isAnimatingOut, setIsAnimatingOut] = useState(false);
 
@@ -15,6 +15,7 @@ export default function SplashScreen() {
 
     const removeTimer = setTimeout(() => {
       setShow(false);
+      onDone?.();
     }, 3000);
 
     return () => {

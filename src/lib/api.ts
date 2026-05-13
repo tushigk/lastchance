@@ -27,6 +27,7 @@ export interface AuthUser {
   bio?: string;
   interests?: string[];
   avatar?: string;
+  membershipExpiresAt?: string;
 }
 
 export interface AuthResponse {
@@ -114,6 +115,36 @@ export const profileApi = {
       method: "PUT",
       body: JSON.stringify(body),
     }),
+};
+
+export interface SwipeUser {
+  _id: string;
+  name?: string;
+  username?: string;
+  avatar?: string;
+  gender?: string;
+  age?: number;
+  isOnline?: boolean;
+}
+
+export interface SwipeQuota {
+  used: number;
+  limit: number;
+  remaining: number;
+}
+
+export const swipeApi = {
+  getFeed: () =>
+    request<{ data: SwipeUser[]; total: number; quota: SwipeQuota }>("/swipes/feed?limit=1"),
+
+  getQuota: () =>
+    request<{ quota: SwipeQuota }>("/swipes/quota"),
+
+  getMatches: () =>
+    request<{ data: { _id: string; matchedAt: string; target: SwipeUser }[]; total: number }>("/swipes/matches?limit=5"),
+
+  getLikes: () =>
+    request<{ data: { _id: string; likedAt: string; user: SwipeUser }[]; total: number }>("/swipes/likes?limit=6"),
 };
 
 export const authApi = {
