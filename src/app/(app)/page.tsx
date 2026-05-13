@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Flame, Heart, Zap, Lock, Crown } from "lucide-react";
+import { Flame, Heart, Zap, Lock, Crown, Loader2 } from "lucide-react";
 import { useAuth } from "@/store/AuthProvider";
 import { swipeApi, SwipeUser, SwipeQuota } from "@/lib/api";
 
@@ -13,8 +13,17 @@ interface HomeData {
   likes: { _id: string; user: SwipeUser }[];
 }
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3080";
+
+function resolveAvatar(avatar?: string) {
+  if (!avatar) return null;
+  if (avatar.startsWith("http://") || avatar.startsWith("https://")) return avatar;
+  return `${BASE_URL}${avatar}`;
+}
+
 function Avatar({ user, size = 40 }: { user: SwipeUser; size?: number }) {
   const letter = (user.name ?? user.username ?? "?").charAt(0).toUpperCase();
+  const src = resolveAvatar(user.avatar);
   return (
     <div
       className="rounded-full overflow-hidden flex items-center justify-center text-white font-bold shrink-0"
@@ -24,9 +33,9 @@ function Avatar({ user, size = 40 }: { user: SwipeUser; size?: number }) {
         fontSize: size * 0.35,
       }}
     >
-      {user.avatar
+      {src
         // eslint-disable-next-line @next/next/no-img-element
-        ? <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+        ? <img src={src} alt={user.name} className="w-full h-full object-cover" />
         : letter}
     </div>
   );
@@ -35,12 +44,13 @@ function Avatar({ user, size = 40 }: { user: SwipeUser; size?: number }) {
 export default function DashboardPage() {
   const { user } = useAuth();
   const [data, setData] = useState<HomeData | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const displayName = user?.name ?? user?.phone ?? "Хэрэглэгч";
 
   useEffect(() => {
     Promise.allSettled([
-      swipeApi.getFeed(),
+      swipeApi.getFeedSingle(),
       swipeApi.getMatches(),
       swipeApi.getLikes(),
     ]).then(([feedRes, matchRes, likesRes]) => {
@@ -51,6 +61,7 @@ export default function DashboardPage() {
         recentMatches: matchRes.status === "fulfilled" ? matchRes.value.data : [],
         likes: likesRes.status === "fulfilled" ? likesRes.value.data : [],
       });
+      setLoading(false);
     });
   }, []);
 
@@ -59,6 +70,14 @@ export default function DashboardPage() {
     { label: "Match", value: data?.matchTotal ?? "—", color: "#e8415a" },
     { label: "Swipe үлдсэн", value: data?.quota ? data.quota.remaining : "—", color: "#a06de0" },
   ];
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-[60vh]">
+        <Loader2 size={36} className="animate-spin text-[#c8254a]" />
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-[860px] mx-auto">
@@ -186,9 +205,9 @@ export default function DashboardPage() {
           )}
           {(data?.likes ?? []).map(l => (
             <div key={l._id} className="relative w-20 h-24 rounded-2xl overflow-hidden shrink-0 border border-white/[0.05]">
-              {l.user.avatar ? (
+              {resolveAvatar(l.user.avatar) ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={l.user.avatar} alt={l.user.name} className="w-full h-full object-cover blur-md opacity-60" />
+                <img src={resolveAvatar(l.user.avatar)!} alt={l.user.name} className="w-full h-full object-cover blur-md opacity-60" />
               ) : (
                 <div className="absolute inset-0 flex items-center justify-center text-[22px] font-black text-white/30"
                   style={{ background: "linear-gradient(135deg,rgba(232,65,90,0.2),rgba(155,89,255,0.2))" }}>
@@ -199,9 +218,6 @@ export default function DashboardPage() {
                 <Lock size={16} className="text-white/70" />
               </div>
             </div>
-          ))}
-          {data == null && [1, 2, 3].map(i => (
-            <div key={i} className="w-20 h-24 rounded-2xl shrink-0 animate-pulse bg-white/[0.05]" />
           ))}
         </div>
       </div>

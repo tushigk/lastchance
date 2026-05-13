@@ -1,134 +1,214 @@
 "use client";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { MessageCircle, Heart, ArrowLeft, Star, MapPin, Calendar, Clock } from "lucide-react";
+import { MessageCircle, Heart, ArrowLeft, Star, Calendar, Clock, Loader2, Zap } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
+import { userApi, PublicProfile, PublicNetworkPost } from "@/lib/api";
+import { useAuth } from "@/store/AuthProvider";
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3080";
+
+const GENDERS: Record<string, string> = { male: "Эрэгтэй", female: "Эмэгтэй", other: "Бусад" };
+
+function resolveAvatar(avatar?: string) {
+  if (!avatar) return null;
+  if (avatar.startsWith("http://") || avatar.startsWith("https://")) return avatar;
+  return `${BASE_URL}${avatar}`;
+}
+
+function timeAgo(iso: string) {
+  const diff = (Date.now() - new Date(iso).getTime()) / 1000;
+  if (diff < 60) return "Саяхан";
+  if (diff < 3600) return `${Math.floor(diff / 60)} мин өмнө`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)} цаг өмнө`;
+  if (diff < 86400 * 30) return `${Math.floor(diff / 86400)} өдрийн өмнө`;
+  if (diff < 86400 * 365) return `${Math.floor(diff / (86400 * 30))} сарын өмнө`;
+  return `${Math.floor(diff / (86400 * 365))} жилийн өмнө`;
+}
 
 export default function UserProfilePage() {
   const params = useParams();
   const router = useRouter();
-  const username = decodeURIComponent(params.id as string);
-  const avatarLetter = username.charAt(0).toUpperCase();
+  const { user: me } = useAuth();
+  const id = params.id as string;
+
+  const [profile, setProfile] = useState<PublicProfile | null>(null);
+  const [posts, setPosts] = useState<PublicNetworkPost[]>([]);
+  const [postsTotal, setPostsTotal] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const isOwnProfile = me?._id === id;
+
+  useEffect(() => {
+    setLoading(true);
+    userApi.getPublicProfile(id)
+      .then(res => {
+        setProfile(res.profile);
+        setPosts(res.posts);
+        setPostsTotal(res.postsTotal);
+      })
+      .catch(e => setError(e instanceof Error ? e.message : "Профайл ачаалахад алдаа гарлаа"))
+      .finally(() => setLoading(false));
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-[60vh]">
+        <Loader2 size={36} className="animate-spin text-[#c8254a]" />
+      </div>
+    );
+  }
+
+  if (error || !profile) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
+        <p className="text-[#e8415a]">{error || "Профайл олдсонгүй"}</p>
+        <button onClick={() => router.back()} className="text-text-muted hover:text-white text-sm flex items-center gap-1">
+          <ArrowLeft size={14} /> Буцах
+        </button>
+      </div>
+    );
+  }
+
+  const displayName = profile.name ?? profile.username ?? "Хэрэглэгч";
+  const avatarSrc = resolveAvatar(profile.avatar);
+  const avatarLetter = displayName[0].toUpperCase();
+  const expPercent = profile.level && profile.nextLevel
+    ? Math.min(100, Math.round(((profile.exp ?? 0) - (profile.level.requiredExp ?? 0)) /
+        ((profile.nextLevel.requiredExp ?? 1) - (profile.level.requiredExp ?? 0)) * 100))
+    : 0;
 
   return (
     <div className="max-w-[860px] mx-auto pb-12 w-full">
-      <button
-        onClick={() => router.back()}
-        className="flex items-center gap-2 text-text-muted hover:text-white mb-5 transition-colors bg-transparent border-none cursor-pointer p-0 text-sm font-medium"
-      >
+      <button onClick={() => router.back()}
+        className="flex items-center gap-2 text-text-muted hover:text-white mb-5 transition-colors bg-transparent border-none cursor-pointer p-0 text-sm font-medium">
         <ArrowLeft size={16} /> Буцах
       </button>
 
       {/* Profile Header Card */}
       <div className="bg-bg-card border border-white/[0.08] rounded-[28px] overflow-hidden relative shadow-2xl">
 
-        {/* Cover Photo */}
-        <div className="h-48 md:h-64 relative w-full bg-bg-secondary">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1557682250-33bd709cbe85?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-40" />
-          <div className="absolute inset-0 bg-gradient-to-t from-bg-card via-bg-card/40 to-transparent" />
+        {/* Cover gradient */}
+        <div className="h-36 md:h-48 relative w-full"
+          style={{ background: "linear-gradient(135deg, rgba(200,37,74,0.25) 0%, rgba(120,15,32,0.15) 50%, rgba(7,5,15,0.8) 100%)" }}>
+          <div className="absolute inset-0"
+            style={{ background: "radial-gradient(ellipse at 30% 50%, rgba(200,37,74,0.18) 0%, transparent 60%)" }} />
         </div>
 
         {/* Profile Info */}
-        <div className="px-6 md:px-10 pb-8 relative -mt-16 md:-mt-20 flex flex-col md:flex-row gap-6 md:gap-8 items-center md:items-end text-center md:text-left">
+        <div className="px-6 md:px-10 pb-8 relative -mt-14 md:-mt-16 flex flex-col md:flex-row gap-5 md:gap-8 items-center md:items-end text-center md:text-left">
 
           {/* Avatar */}
-          <div className="relative">
-            <div className="w-32 h-32 md:w-40 md:h-40 rounded-[32px] flex items-center justify-center text-[56px] md:text-[72px] font-black font-serif text-white shrink-0 border-4 border-bg-card relative z-10"
-              style={{ background: "linear-gradient(135deg, #e8415a, #9b59ff)", boxShadow: "0 16px 40px rgba(232,65,90,0.4)" }}>
-              {avatarLetter}
+          <div className="relative shrink-0">
+            <div className="w-28 h-28 md:w-36 md:h-36 rounded-[28px] flex items-center justify-center text-[48px] md:text-[60px] font-black font-serif text-white border-4 border-bg-card overflow-hidden relative z-10"
+              style={{ background: "linear-gradient(135deg, #c8254a, #780f20)", boxShadow: "0 16px 40px rgba(200,37,74,0.4)" }}>
+              {avatarSrc
+                ? <img src={avatarSrc} className="w-full h-full object-cover" alt="" />
+                : avatarLetter}
             </div>
-            <div className="absolute bottom-1 right-1 w-6 h-6 bg-green rounded-full border-4 border-bg-card z-20" />
           </div>
 
           {/* Info */}
-          <div className="flex-1 pb-2">
-            <h1 className="text-3xl md:text-4xl font-bold font-serif mb-1.5 text-white">{username}</h1>
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-sm text-text-muted font-medium">
-              <span className="flex items-center gap-1.5"><MapPin size={14} className="text-[#e8415a]" /> Улаанбаатар</span>
-              <span className="flex items-center gap-1.5"><Calendar size={14} className="text-[#a06de0]" /> 1 жилийн өмнө нэгдсэн</span>
+          <div className="flex-1 pb-1 min-w-0">
+            <div className="flex items-center gap-2 justify-center md:justify-start flex-wrap mb-1">
+              <h1 className="text-2xl md:text-3xl font-bold font-serif text-white">{displayName}</h1>
+              {profile.level && (
+                <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold"
+                  style={{ background: "rgba(232,184,80,0.12)", border: "1px solid rgba(232,184,80,0.3)", color: "#e8b850" }}>
+                  Lv.{profile.level.level} {profile.level.title}
+                </span>
+              )}
             </div>
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 text-[13px] text-text-muted mb-3">
+              {profile.gender && <span>{GENDERS[profile.gender] ?? profile.gender}</span>}
+              {profile.age && <span>· {profile.age} нас</span>}
+              {profile.createdAt && (
+                <span className="flex items-center gap-1">
+                  <Calendar size={12} /> {timeAgo(profile.createdAt)} нэгдсэн
+                </span>
+              )}
+            </div>
+
+            {/* EXP bar */}
+            {profile.level && profile.nextLevel && (
+              <div className="max-w-[280px] mx-auto md:mx-0">
+                <div className="flex justify-between text-[11px] text-text-muted mb-1">
+                  <span className="flex items-center gap-1"><Zap size={10} /> {profile.exp ?? 0} XP</span>
+                  <span>Lv.{profile.nextLevel.level} хүртэл {profile.nextLevel.requiredExp - (profile.exp ?? 0)} XP</span>
+                </div>
+                <div className="h-1.5 rounded-full bg-white/[0.07] overflow-hidden">
+                  <div className="h-full rounded-full transition-all"
+                    style={{ width: `${expPercent}%`, background: "linear-gradient(90deg, #e8b850, #c8254a)" }} />
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Action Buttons */}
-          <div className="flex gap-3 w-full md:w-auto pb-2 shrink-0">
-            <button className="flex-1 md:flex-none w-12 h-12 rounded-2xl flex items-center justify-center bg-[rgba(255,255,255,0.05)] border border-white/10 text-white transition-all hover:bg-[rgba(255,255,255,0.1)] hover:scale-105 cursor-pointer">
-              <Heart size={20} />
-            </button>
-            <Link href={`/chat?user=${encodeURIComponent(username)}`} className="flex-1 md:flex-none">
-              <button className="w-full flex items-center justify-center gap-2 px-8 h-12 rounded-2xl font-bold text-white transition-all hover:scale-105 border-none cursor-pointer"
-                style={{ background: "linear-gradient(135deg, #e8415a, #9e1838)", boxShadow: "0 8px 24px rgba(232,65,90,0.35)" }}>
-                <MessageCircle size={18} /> Чатлах
+          {!isOwnProfile && (
+            <div className="flex gap-3 pb-1 shrink-0">
+              <Link href={`/chat?user=${id}`}>
+                <button className="flex items-center justify-center gap-2 px-6 h-11 rounded-2xl font-bold text-white text-[13px] border-none cursor-pointer transition-all hover:-translate-y-0.5"
+                  style={{ background: "linear-gradient(135deg, #e8415a, #9e1838)", boxShadow: "0 6px 20px rgba(232,65,90,0.35)" }}>
+                  <MessageCircle size={16} /> Чатлах
+                </button>
+              </Link>
+            </div>
+          )}
+          {isOwnProfile && (
+            <Link href="/profile" className="shrink-0">
+              <button className="px-5 h-10 rounded-2xl text-[13px] font-medium text-text-secondary border border-white/[0.1] hover:border-white/[0.2] transition-all">
+                Засах
               </button>
             </Link>
-          </div>
+          )}
         </div>
       </div>
 
       {/* Content Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-5">
 
-        {/* Left Column (About & Stats) */}
-        <div className="flex flex-col gap-6 md:col-span-1">
-          {/* About */}
-          <div className="bg-bg-card border border-white/[0.05] rounded-[24px] p-6">
-            <h3 className="font-bold text-lg mb-3 text-white flex items-center gap-2">
-              <Star size={18} className="text-[#e8b850]" /> Тухай
+        {/* Left: Stats */}
+        <div className="flex flex-col gap-5 md:col-span-1">
+          <div className="bg-bg-card border border-white/[0.05] rounded-[24px] p-5">
+            <h3 className="font-bold text-[15px] mb-4 text-white flex items-center gap-2">
+              <Star size={16} className="text-[#e8b850]" /> Үзүүлэлт
             </h3>
-            <p className="text-text-secondary text-[14px] leading-relaxed mb-5">
-              Сайн байна уу? Би шинэ хүмүүстэй танилцах, сонирхолтой сэдвээр ярилцах дуртай. Амралтын өдрүүдэд аялалд явах дуртай.
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {['Аялал', 'Roleplay', 'Кофе', 'Ном', 'Улаанбаатар'].map(tag => (
-                <span key={tag} className="px-3 py-1.5 rounded-xl bg-white/[0.03] border border-white/[0.06] text-[12px] text-text-muted hover:text-white transition-colors cursor-default">
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Stats */}
-          <div className="bg-bg-card border border-white/[0.05] rounded-[24px] p-6">
-            <h3 className="font-bold text-lg mb-4 text-white">Үзүүлэлт</h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3">
               <div className="text-center p-4 rounded-2xl bg-white/[0.02] border border-white/[0.04]">
-                <div className="text-2xl font-black font-serif text-[#e8415a] mb-1">128</div>
-                <div className="text-[11px] text-text-muted uppercase tracking-wider font-bold">Нийтлэл</div>
+                <div className="text-[26px] font-black font-serif text-[#e8415a] mb-0.5">{postsTotal}</div>
+                <div className="text-[11px] text-text-muted uppercase tracking-wide font-bold">Нийтлэл</div>
               </div>
               <div className="text-center p-4 rounded-2xl bg-white/[0.02] border border-white/[0.04]">
-                <div className="text-2xl font-black font-serif text-[#9b59ff] mb-1">2.4k</div>
-                <div className="text-[11px] text-text-muted uppercase tracking-wider font-bold">Таалагдсан</div>
+                <div className="text-[26px] font-black font-serif text-[#e8b850] mb-0.5">{profile.exp ?? 0}</div>
+                <div className="text-[11px] text-text-muted uppercase tracking-wide font-bold">XP</div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Right Column (Recent Posts) */}
-        <div className="md:col-span-2 flex flex-col gap-4">
-          <h3 className="font-bold text-lg mb-1 text-white px-2 flex items-center gap-2">
-            <Clock size={18} className="text-[#388add]" /> Сүүлийн нийтлэлүүд
+        {/* Right: Posts */}
+        <div className="md:col-span-2 flex flex-col gap-3">
+          <h3 className="font-bold text-[15px] text-white flex items-center gap-2 px-1">
+            <Clock size={16} className="text-[#388add]" /> Нийтлэлүүд {postsTotal > 0 && <span className="text-text-muted font-normal text-[13px]">({postsTotal})</span>}
           </h3>
 
-          {[1, 2, 3].map((post) => (
-            <div key={post} className="bg-bg-card border border-white/[0.05] rounded-[20px] p-5 hover:border-white/[0.1] transition-colors cursor-pointer">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-8 h-8 rounded-full flex items-center justify-center text-[12px] font-bold shrink-0 text-white"
-                  style={{ background: "linear-gradient(135deg, #e8415a, #9b59ff)" }}>
-                  {avatarLetter}
-                </div>
-                <div>
-                  <div className="text-[13px] font-semibold text-white">{username}</div>
-                  <div className="text-[11px] text-text-muted">{post} өдрийн өмнө</div>
+          {posts.length === 0 ? (
+            <p className="text-text-muted text-[13px] px-1 py-4">Нийтлэл байхгүй байна</p>
+          ) : (
+            posts.map(post => (
+              <div key={post._id} className="bg-bg-card border border-white/[0.05] rounded-[18px] p-5 hover:border-[rgba(200,48,90,0.18)] transition-colors">
+                <h4 className="text-[15px] font-bold mb-1.5 font-serif leading-snug">{post.title}</h4>
+                <p className="text-[13px] text-text-secondary leading-relaxed line-clamp-2 mb-3">{post.description}</p>
+                <div className="flex items-center gap-4 text-[12px] text-text-muted">
+                  <span className="flex items-center gap-1"><Heart size={12} /> {post.likeCount}</span>
+                  <span className="flex items-center gap-1"><MessageCircle size={12} /> {post.commentCount}</span>
+                  <span className="ml-auto">{timeAgo(post.createdAt)}</span>
                 </div>
               </div>
-              <h4 className="text-[15px] font-bold mb-2 font-serif text-white">Яг одоо хамгийн их сонсож байгаа дуу чинь юу вэ?</h4>
-              <p className="text-[13px] text-text-secondary leading-relaxed line-clamp-2">
-                Сүүлийн үед ажилдаа явахдаа байнга нэг дууг repeat дээр сонсоод байна. Та бүхний playlist-д юу байна хуваалцаач?
-              </p>
-              <div className="flex items-center gap-4 mt-4 pt-4 border-t border-white/[0.04] text-[12px] text-text-muted font-medium">
-                <span className="flex items-center gap-1.5 hover:text-[#e8415a] transition-colors"><Heart size={14} /> {45 * post}</span>
-                <span className="flex items-center gap-1.5 hover:text-white transition-colors"><MessageCircle size={14} /> {12 * post}</span>
-              </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
     </div>

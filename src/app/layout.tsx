@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "./_components/Header";
 import { AuthProvider } from "@/store/AuthProvider";
+import { NotificationProvider } from "@/store/NotificationProvider";
 import AuthLoadingGate from "@/components/AuthLoadingGate";
 
 export const metadata: Metadata = {
@@ -19,10 +20,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <AuthProvider>
-          <AuthLoadingGate>
-            <Header />
-            {children}
-          </AuthLoadingGate>
+          <NotificationProvider>
+            <AuthLoadingGate>
+              <Header />
+              {children}
+            </AuthLoadingGate>
+          </NotificationProvider>
         </AuthProvider>
       </body>
     </html>

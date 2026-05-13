@@ -3,12 +3,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Bell } from "lucide-react";
 import { useAuth } from "@/store/AuthProvider";
-
-const NOTIF_COUNT = 4;
+import { useNotifications } from "@/store/NotificationProvider";
 
 export default function Header() {
   const pathname = usePathname();
   const { user } = useAuth();
+  const { unreadCount } = useNotifications();
 
   if (pathname.startsWith("/login") || pathname.startsWith("/register")) return null;
 
@@ -27,9 +27,9 @@ export default function Header() {
           <Link href="/notifications" className="no-underline">
             <div className="relative w-9 h-9 rounded-xl flex items-center justify-center transition-colors duration-200 hover:bg-[rgba(255,255,255,0.06)] cursor-pointer border border-[rgba(255,255,255,0.07)]">
               <Bell size={17} strokeWidth={1.8} className="text-text-secondary" />
-              {NOTIF_COUNT > 0 && (
+              {unreadCount > 0 && (
                 <div className="absolute -top-1 -right-1 w-[18px] h-[18px] rounded-full flex items-center justify-center text-[9px] font-bold text-white bg-[linear-gradient(135deg,#e8415a,#9e1838)]">
-                  {NOTIF_COUNT}
+                  {unreadCount > 99 ? "99+" : unreadCount}
                 </div>
               )}
             </div>

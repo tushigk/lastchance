@@ -133,9 +133,33 @@ export interface SwipeQuota {
   remaining: number;
 }
 
+export interface MatchResult {
+  _id: string;
+  matchedAt: string;
+  target: SwipeUser;
+}
+
+export interface SwipeResult {
+  swipe: unknown;
+  match: MatchResult | null;
+  isNewMatch: boolean;
+  quota: SwipeQuota;
+}
+
 export const swipeApi = {
-  getFeed: () =>
+  getFeed: (page = 1, limit = 10) =>
+    request<{ data: SwipeUser[]; total: number; page: number; totalPages: number; quota: SwipeQuota }>(
+      `/swipes/feed?page=${page}&limit=${limit}`
+    ),
+
+  getFeedSingle: () =>
     request<{ data: SwipeUser[]; total: number; quota: SwipeQuota }>("/swipes/feed?limit=1"),
+
+  performSwipe: (targetId: string, action: "like" | "pass") =>
+    request<SwipeResult>(`/swipes/${targetId}`, {
+      method: "POST",
+      body: JSON.stringify({ action }),
+    }),
 
   getQuota: () =>
     request<{ quota: SwipeQuota }>("/swipes/quota"),
@@ -145,6 +169,185 @@ export const swipeApi = {
 
   getLikes: () =>
     request<{ data: { _id: string; likedAt: string; user: SwipeUser }[]; total: number }>("/swipes/likes?limit=6"),
+};
+
+export interface NetworkPostAuthor {
+  _id: string;
+  username?: string;
+  name?: string;
+  avatar?: string;
+}
+
+export interface NetworkPost {
+  _id: string;
+  title: string;
+  description: string;
+  image?: { url: string; blurHash?: string };
+  isPinned: boolean;
+  likeCount: number;
+  commentCount: number;
+  createdBy: NetworkPostAuthor;
+  createdAt: string;
+  updatedAt: string;
+  editedAt?: string;
+  isEdited: boolean;
+  category?: "breakup" | "friends";
+  likedByMe: boolean;
+}
+
+export interface NetworkComment {
+  _id: string;
+  post: string;
+  user: NetworkPostAuthor;
+  message: string;
+  source: "user" | "ai";
+  isAiGenerated: boolean;
+  createdAt: string;
+}
+
+export interface PublicProfile {
+  _id: string;
+  username?: string;
+  name?: string;
+  avatar?: string;
+  gender?: string;
+  age?: number;
+  exp?: number;
+  level?: { level: number; title: string } | null;
+  nextLevel?: { level: number; title: string; requiredExp: number } | null;
+  createdAt?: string;
+}
+
+export interface PublicNetworkPost {
+  _id: string;
+  title: string;
+  description: string;
+  likeCount: number;
+  commentCount: number;
+  createdAt: string;
+  isEdited: boolean;
+}
+
+export const userApi = {
+  getPublicProfile: (id: string) =>
+    request<{
+      profile: PublicProfile;
+      posts: PublicNetworkPost[];
+      postsTotal: number;
+      postsPage: number;
+      postsTotalPages: number;
+    }>(`/users/${id}/public`),
+};
+
+export const networkApi = {
+  listPosts: (page = 1, limit = 20, search?: string) => {
+    const params = new URLSearchParams({ page: String(page), limit: String(limit) });
+    if (search) params.set("search", search);
+    return request<{ data: NetworkPost[]; total: number; page: number; totalPages: number }>(
+      `/network/posts?${params}`
+    );
+  },
+
+  createPost: (body: { title: string; description: string; category?: "breakup" | "friends" }) =>
+    request<{ data: NetworkPost }>("/network/posts", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+
+  likePost: (id: string) =>
+    request<{ success: boolean }>(`/network/posts/${id}/like`, { method: "POST" }),
+
+  unlikePost: (id: string) =>
+    request<{ success: boolean }>(`/network/posts/${id}/like`, { method: "DELETE" }),
+
+  listComments: (postId: string, page = 1) =>
+    request<{ data: NetworkComment[]; total: number; totalPages: number }>(
+      `/network/posts/${postId}/comments?page=${page}&limit=20`
+    ),
+
+  createComment: (postId: string, message: string) =>
+    request<{ data: NetworkComment }>(`/network/posts/${postId}/comments`, {
+      method: "POST",
+      body: JSON.stringify({ message }),
+    }),
+
+  deletePost: (id: string) =>
+    request<{ success: boolean }>(`/network/posts/${id}`, { method: "DELETE" }),
+
+  deleteComment: (id: string) =>
+    request<{ success: boolean }>(`/network/comments/${id}`, { method: "DELETE" }),
+};
+
+export interface ChatRoom {
+  _id: string;
+  type: "direct" | "group";
+  title?: string;
+  memberCount: number;
+  lastMessage?: { _id: string; body: string; sender: any; createdAt: string } | null;
+  unread: boolean;
+  counterpart?: { _id: string; username?: string; name?: string; avatar?: string };
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ChatMessage {
+  _id: string;
+  room: string;
+  sender: { _id: string; username?: string; name?: string; avatar?: string };
+  type: string;
+  body: string;
+  createdAt: string;
+}
+
+export const chatApi = {
+  listChats: () =>
+    request<{ data: ChatRoom[]; total: number }>("/chats?limit=50"),
+
+  getMessages: (roomId: string, page = 1) =>
+    request<{ data: ChatMessage[]; total: number; totalPages: number }>(
+      `/chats/${roomId}/messages?page=${page}&limit=30`
+    ),
+
+  createDirect: (userId: string) =>
+    request<{ data: ChatRoom }>("/chats/direct", {
+      method: "POST",
+      body: JSON.stringify({ userId }),
+    }),
+
+  sendMessage: (roomId: string, body: string) =>
+    request<{ data: ChatMessage }>(`/chats/${roomId}/messages`, {
+      method: "POST",
+      body: JSON.stringify({ body }),
+    }),
+
+  markRead: (roomId: string) =>
+    request<{ success: boolean }>(`/chats/${roomId}/read`, { method: "POST" }),
+
+  deleteChat: (roomId: string) =>
+    request<{ success: boolean }>(`/chats/${roomId}`, { method: "DELETE" }),
+};
+
+export interface AppNotification {
+  _id: string;
+  type: "chat_invite" | "chat_message" | "membership_activated" | "article_published" | "advisor_published" | "system_announcement" | string;
+  title?: string;
+  body?: string;
+  data?: Record<string, unknown>;
+  isRead: boolean;
+  createdAt: string;
+}
+
+export const notificationApi = {
+  list: (page = 1, limit = 30) =>
+    request<{ data: AppNotification[]; total: number; page: number; totalPages: number }>(
+      `/notifications?page=${page}&limit=${limit}`
+    ),
+
+  markRead: (id: string) =>
+    request<{ data: AppNotification }>(`/notifications/${id}/read`, { method: "POST" }),
+
+  markAllRead: () =>
+    request<{ success: boolean }>("/notifications/read", { method: "POST" }),
 };
 
 export const authApi = {
