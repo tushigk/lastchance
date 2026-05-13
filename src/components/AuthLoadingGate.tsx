@@ -1,12 +1,8 @@
 "use client";
 import { useState, ReactNode } from "react";
-import { useAuth } from "@/store/AuthProvider";
-import Loading from "@/app/loading";
 import SplashScreen from "@/components/SplashScreen";
 
 export default function AuthLoadingGate({ children }: { children: ReactNode }) {
-  const { loading } = useAuth();
-
   const [isFirstVisit] = useState<boolean>(() => {
     if (typeof window === "undefined") return false;
     if (sessionStorage.getItem("splashShown")) return false;
@@ -20,6 +16,5 @@ export default function AuthLoadingGate({ children }: { children: ReactNode }) {
     return <SplashScreen onDone={() => setSplashDone(true)} />;
   }
 
-  if (loading) return <Loading />;
   return <>{children}</>;
 }
