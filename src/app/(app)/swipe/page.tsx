@@ -323,7 +323,7 @@ export default function SwipePage() {
                   <h2 className="font-serif text-[26px] font-black text-white leading-none">
                     {top.name ?? top.username}
                   </h2>
-                  {top.age && <span className="text-[18px] text-white/60 font-light">{top.age}</span>}
+                  {top.birthYear && <span className="text-[18px] text-white/60 font-light">{top.birthYear}</span>}
                   {top.gender && <span className="text-[12px] text-white/40">{GENDERS[top.gender] ?? top.gender}</span>}
                 </div>
                 {top.isOnline !== undefined && (

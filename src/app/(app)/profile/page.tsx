@@ -101,19 +101,19 @@ export default function ProfilePage() {
 
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1">
                 {(user?.gender || age) && (
-                  <p className="text-text-secondary text-[13px]">
+                  <p className="text-white/60 text-[13px]">
                     {[user?.gender ? GENDER_LABEL[user.gender] ?? user.gender : null, age ? `${age} нас` : null]
                       .filter(Boolean).join(" · ")}
                   </p>
                 )}
                 {user?.city && (
-                  <div className="flex items-center gap-1 text-text-muted text-[12px]">
+                  <div className="flex items-center gap-1 text-white/60 text-[12px]">
                     <MapPin size={11} strokeWidth={2} />
                     <span>{user.city}</span>
                   </div>
                 )}
                 {user?.birthYear && (
-                  <div className="flex items-center gap-1 text-text-muted text-[12px]">
+                  <div className="flex items-center gap-1 text-white/60 text-[12px]">
                     <Calendar size={11} strokeWidth={2} />
                     <span>{user.birthYear} он</span>
                   </div>

@@ -11,6 +11,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3080";
 
 const GENDERS: Record<string, string> = { male: "Эрэгтэй", female: "Эмэгтэй", other: "Бусад" };
 
+
 function resolveAvatar(avatar?: string) {
   if (!avatar) return null;
   if (avatar.startsWith("http://") || avatar.startsWith("https://")) return avatar;
@@ -42,6 +43,8 @@ export default function UserProfilePage() {
   const profile = data?.profile ?? null;
   const posts = data?.posts ?? [];
   const postsTotal = data?.postsTotal ?? 0;
+  const currentYear = new Date().getFullYear();
+  const age = profile?.birthYear ? currentYear - profile.birthYear : null;
 
   if (isLoading) {
     return (
@@ -107,10 +110,10 @@ export default function UserProfilePage() {
                 </span>
               )}
             </div>
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-4 gap-y-1.5 text-[13px] text-text-muted mb-3">
-              {(profile.gender || profile.age) && (
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-4 gap-y-1.5 text-[13px] text-white/60 mb-3">
+              {(profile.gender || age) && (
                 <span>
-                  {[profile.gender ? GENDERS[profile.gender] ?? profile.gender : null, profile.age ? `${profile.age} нас` : null]
+                  {[profile.gender ? GENDERS[profile.gender] ?? profile.gender : null, age ? `${age} нас` : null]
                     .filter(Boolean).join(" · ")}
                 </span>
               )}

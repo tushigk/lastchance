@@ -5,7 +5,7 @@ export interface SwipeUser {
   avatar?: string;
   photos?: string[];
   gender?: string;
-  age?: number;
+  birthYear?: number;
   isOnline?: boolean;
 }
 
