@@ -30,15 +30,30 @@ export interface Movie {
 
 export interface MovieBundle {
   _id: string;
+  kind: "all" | "custom";
   title: string;
   description?: string | null;
   image: MovieImage | null;
+  movies: Movie[];
+  movieIds: string[];
   price: number;
   discountedPrice?: number | null;
   effectivePrice: number;
   isActive: boolean;
   owned: boolean;
   totalMovies?: number;
+  movieCount?: number;
+  sortOrder?: number;
+}
+
+export interface MovieBundlePurchaseResponse {
+  purchaseIds: string[];
+  orderId: string;
+  invoice: QPayInvoice;
+  totalPrice: number;
+  bundle: MovieBundle;
+  movies: Movie[];
+  status: string;
 }
 
 export interface MoviePurchaseResponse {

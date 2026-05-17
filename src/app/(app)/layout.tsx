@@ -12,7 +12,7 @@ const NAV = [
   { href: "/roleplay", icon: Drama, label: "Roleplay" },
   { href: "/forum", icon: Users, label: "Forum" },
   { href: "/chat", icon: MessageCircle, label: "Чат" },
-  { href: "/movies", icon: Film, label: "Кино" },
+  { href: "/movies", icon: Film, label: "Бичлэг" },
   { href: "/games", icon: Gamepad, label: "Тоглоом" },
 
 ];

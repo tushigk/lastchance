@@ -121,17 +121,16 @@ export default function PricingPage() {
               const features: { icon: React.ReactNode; text: string }[] = [];
               if (plan.swipeDailyLimit !== 0) features.push({ icon: <Heart size={13} />, text: formatLimit(plan.swipeDailyLimit, "Swipe") });
               if (plan.aiHumanDailyMessageLimit !== 0) features.push({ icon: <Bot size={13} />, text: formatLimit(plan.aiHumanDailyMessageLimit, "AI мессеж") });
-              if (plan.movieComplimentaryQuota > 0) features.push({ icon: <Film size={13} />, text: `${plan.movieComplimentaryQuota} кино үнэгүй` });
+              if (plan.movieComplimentaryQuota > 0) features.push({ icon: <Film size={13} />, text: `${plan.movieComplimentaryQuota} Бичлэг үнэгүй` });
 
               return (
                 <div
                   key={plan._id}
                   onClick={() => setSelected(plan._id)}
-                  className={`rounded-[28px] cursor-pointer relative transition-all duration-200 overflow-hidden flex flex-col border ${
-                    isSel
-                      ? `${tier.selBg} border-[1.5px] ${tier.border} ${tier.glow}`
-                      : "bg-bg-card border-[rgba(255,255,255,0.07)]"
-                  }`}
+                  className={`rounded-[28px] cursor-pointer relative transition-all duration-200 overflow-hidden flex flex-col border ${isSel
+                    ? `${tier.selBg} border-[1.5px] ${tier.border} ${tier.glow}`
+                    : "bg-bg-card border-[rgba(255,255,255,0.07)]"
+                    }`}
                 >
                   {/* Cover image */}
                   {imgUrl && (
@@ -152,11 +151,10 @@ export default function PricingPage() {
                       <span className={`px-3 py-1 rounded-full text-[11px] font-bold ${tier.badge}`}>
                         {tier.label}
                       </span>
-                      <span className={`px-3 py-1 rounded-full text-[11px] font-bold ${
-                        isSel
-                          ? "bg-[linear-gradient(135deg,#c8254a,#780f20)] text-white"
-                          : "bg-[rgba(255,255,255,0.08)] text-text-muted"
-                      }`}>
+                      <span className={`px-3 py-1 rounded-full text-[11px] font-bold ${isSel
+                        ? "bg-[linear-gradient(135deg,#c8254a,#780f20)] text-white"
+                        : "bg-[rgba(255,255,255,0.08)] text-text-muted"
+                        }`}>
                         {plan.months === 1 ? "1 сар" : `${plan.months} сар`}
                       </span>
                     </div>
@@ -197,11 +195,10 @@ export default function PricingPage() {
                     <button
                       disabled={isBuying}
                       onClick={e => { e.stopPropagation(); handleBuy(plan); }}
-                      className={`mt-auto w-full py-3 rounded-[14px] font-bold text-sm cursor-pointer transition-all duration-200 hover:-translate-y-0.5 border-none flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed ${
-                        isSel
-                          ? "bg-[linear-gradient(135deg,#c8254a,#780f20)] text-white shadow-[0_4px_20px_rgba(158,24,56,0.35)]"
-                          : "bg-[rgba(255,255,255,0.05)] text-text-secondary"
-                      }`}
+                      className={`mt-auto w-full py-3 rounded-[14px] font-bold text-sm cursor-pointer transition-all duration-200 hover:-translate-y-0.5 border-none flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed ${isSel
+                        ? "bg-[linear-gradient(135deg,#c8254a,#780f20)] text-white shadow-[0_4px_20px_rgba(158,24,56,0.35)]"
+                        : "bg-[rgba(255,255,255,0.05)] text-text-secondary"
+                        }`}
                     >
                       {isBuying ? <Loader2 size={14} className="animate-spin" /> : isSel ? <Zap size={14} /> : <Check size={14} />}
                       {isBuying ? "Нэхэмжлэл үүсгэж байна..." : isSel ? "QPay-аар төлөх" : "Сонгох"}

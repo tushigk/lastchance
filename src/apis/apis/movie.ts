@@ -1,5 +1,5 @@
 import { request } from "@/utils/request";
-import { Movie, MovieStreamData, MoviePurchaseResponse, MovieBundle, MovieBulkPurchaseResponse } from "../types/movie";
+import { Movie, MovieStreamData, MoviePurchaseResponse, MovieBundle, MovieBulkPurchaseResponse, MovieBundlePurchaseResponse } from "../types/movie";
 import { QPayInvoice } from "../types/membership";
 
 export const movieApi = {
@@ -43,5 +43,17 @@ export const movieApi = {
     request<MovieBulkPurchaseResponse>("/movies/bulk/purchase", {
       method: "POST",
       body: JSON.stringify({ movieIds }),
+    }),
+
+  listBundles: (page = 1, limit = 20) => {
+    const params = new URLSearchParams({ page: String(page), limit: String(limit) });
+    return request<{ data: MovieBundle[]; total: number; page: number; totalPages: number }>(
+      `/movies/bundles?${params}`
+    );
+  },
+
+  purchaseMovieBundle: (bundleId: string) =>
+    request<MovieBundlePurchaseResponse>(`/movies/bundles/${bundleId}/purchase`, {
+      method: "POST",
     }),
 };

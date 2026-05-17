@@ -7,7 +7,7 @@ const SLIDES = [
     img: "/banner1.jpg",
     name: "Oyunaa", age: 25, match: 94,
     quote: "Жинхэнэ холболтыг хайж байна...",
-    interests: ["Хөгжим", "Аялал", "Кино"],
+    interests: ["Хөгжим", "Аялал", "Бичлэг"],
     dotColor: "#e04878",
   },
   {
@@ -21,7 +21,7 @@ const SLIDES = [
     img: "/banner3.jpg",
     name: "Suvd", age: 27, match: 91,
     quote: "Нууцлалтай танилцахыг хүсч байна",
-    interests: ["Кафе", "Кино", "Спорт"],
+    interests: ["Кафе", "Бичлэг", "Спорт"],
     dotColor: "#e8b850",
   },
 ];

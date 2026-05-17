@@ -45,7 +45,7 @@ function Avatar({ user, size = 40 }: { user: SwipeUser; size?: number }) {
 
 export default function DashboardPage() {
   const { user } = useAuth();
-  
+
   const { data, isLoading } = useSWR<HomeData>("home-dashboard", async () => {
     const [feedRes, matchRes, likesRes, moviesRes] = await Promise.all([
       swipeApi.getFeedSingle(),
@@ -136,7 +136,7 @@ export default function DashboardPage() {
           }}>
           <div className="absolute right-0 top-0 w-64 h-64 pointer-events-none opacity-40 group-hover:scale-110 transition-transform duration-1000"
             style={{ background: "radial-gradient(circle at 75% 25%, rgba(232,65,90,0.2) 0%, transparent 65%)" }} />
-          
+
           <div className="relative z-10">
             <div className="flex items-center gap-2 mb-1.5">
               <div className="px-2 py-0.5 rounded bg-[#e8415a] text-white text-[10px] font-black uppercase tracking-widest">DISCOVER</div>
@@ -146,7 +146,7 @@ export default function DashboardPage() {
               {data?.feedTotal != null ? `Танд таалагдах ${data.feedTotal} хүн байна` : "Танд зориулсан шинэ хүмүүс"}
             </div>
           </div>
-          
+
           <div className="w-14 h-14 rounded-2xl bg-[#e8415a] text-white flex items-center justify-center shadow-[0_8px_25px_rgba(232,65,90,0.4)] relative z-10 transition-transform duration-300 group-hover:scale-110 group-active:scale-95">
             <ChevronRight size={28} strokeWidth={3} />
           </div>
@@ -189,7 +189,7 @@ export default function DashboardPage() {
             </h2>
             <Link href="/chat" className="text-[13px] font-bold text-[#e8415a] hover:underline">Бүгд</Link>
           </div>
-          
+
           <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
             {(data?.recentMatches ?? []).length > 0 ? (
               data!.recentMatches.map(m => (
@@ -222,7 +222,7 @@ export default function DashboardPage() {
             </h2>
             <Link href="/likes" className="text-[13px] font-bold text-[#e8415a] hover:underline">Бүгд</Link>
           </div>
-          
+
           <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
             {(data?.likes ?? []).length > 0 ? (
               data!.likes.map(l => (
@@ -282,7 +282,7 @@ export default function DashboardPage() {
                 <Film size={20} className="text-[#e8415a]" />
               </div>
               <div>
-                <h2 className="text-[20px] font-black text-white font-serif tracking-tight">Онцлох кино</h2>
+                <h2 className="text-[20px] font-black text-white font-serif tracking-tight">Онцлох бичлэг</h2>
                 <p className="text-[12px] text-text-muted">Танд зориулсан шинэ контент</p>
               </div>
             </div>
@@ -366,13 +366,13 @@ function HomeMovieCard({ movie }: { movie: Movie }) {
               <CheckCircle size={14} strokeWidth={3} className="text-white" />
             </div>
           )}
-          
+
           <div className="absolute bottom-3 left-3 right-3">
-             <div className="flex gap-1">
-               {movie.genres.slice(0, 1).map(g => (
-                 <span key={g} className="px-1.5 py-0.5 rounded bg-black/50 backdrop-blur-sm text-[8px] font-black text-white/80 border border-white/10 uppercase tracking-wider">{g}</span>
-               ))}
-             </div>
+            <div className="flex gap-1">
+              {movie.genres.slice(0, 1).map(g => (
+                <span key={g} className="px-1.5 py-0.5 rounded bg-black/50 backdrop-blur-sm text-[8px] font-black text-white/80 border border-white/10 uppercase tracking-wider">{g}</span>
+              ))}
+            </div>
           </div>
         </div>
         <div className="px-4 py-3">
