@@ -68,10 +68,8 @@ export default function AuthBanner() {
       <div className="md:hidden absolute inset-0 flex flex-col justify-between p-5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div
-              className="w-7 h-7 rounded-lg flex items-center justify-center text-sm font-black text-white shrink-0 font-serif bg-[linear-gradient(135deg,#d4365a,#9a1c3e)]"
-            >С</div>
-            <span className="text-sm font-bold font-serif">Intimate</span>
+            <Image src="/logo.png" alt="" width={50} height={50} />
+            <span className="text-sm font-bold font-serif">Khuslen</span>
           </div>
         </div>
 
@@ -88,10 +86,10 @@ export default function AuthBanner() {
 
       <div className="hidden md:flex absolute inset-0 flex-col px-10 py-12">
         <div className="flex items-center gap-2.5 mb-auto">
-          <div
-            className="w-9 h-9 rounded-xl flex items-center justify-center text-lg font-black text-white shrink-0 font-serif bg-[linear-gradient(135deg,#d4365a,#9a1c3e)] shadow-[0_4px_20px_rgba(200,48,90,0.4)]"
-          >С</div>
-          <span className="text-lg font-bold font-serif">Intimate</span>
+          <div>
+            <Image src="/logo.png" alt="" width={50} height={50} />
+          </div>
+          <span className="text-lg font-bold font-serif">Khuslen</span>
         </div>
 
         <div className={`mb-8 transition-all duration-350 ${animating ? "opacity-0 translate-y-3" : "opacity-100 translate-y-0"}`}>
@@ -126,6 +124,6 @@ export default function AuthBanner() {
 
         <div className="h-px bg-white/[0.08]" />
       </div>
-    </div>
+    </div >
   );
 }

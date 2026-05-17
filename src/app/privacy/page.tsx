@@ -18,7 +18,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-[18px] font-bold text-white mb-3">1. Ерөнхий мэдээлэл</h2>
             <p>
-              Intimate платформ нь таны хувийн мэдээллийг хуулийн дагуу цуглуулж, хадгалж, ашигладаг.
+              Khuslen платформ нь таны хувийн мэдээллийг хуулийн дагуу цуглуулж, хадгалж, ашигладаг.
               Энэхүү нууцлалын бодлого нь бид таны мэдээллийг хэрхэн цуглуулж, ашиглаж, хамгаалдаг талаар тайлбарласан болно.
             </p>
           </section>
@@ -64,7 +64,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-[18px] font-bold text-white mb-3">6. Насны хязгаарлалт</h2>
             <p>
-              Intimate платформ нь зөвхөн <strong className="text-white">18 ба түүнээс дээш насны хүмүүст</strong> зориулагдсан.
+              Khuslen платформ нь зөвхөн <strong className="text-white">18 ба түүнээс дээш насны хүмүүст</strong> зориулагдсан.
               18 насанд хүрээгүй хүн бүртгүүлэх эрхгүй бөгөөд бид ийм хэрэглэгчийн аккаунтыг
               илрүүлсэн тохиолдолд нэн даруй устгах эрхтэй.
             </p>
@@ -78,7 +78,7 @@ export default function PrivacyPage() {
               <li className="list-disc">Мэдэгдэл, зар сурталчилгааг цуцлах</li>
             </ul>
             <p className="mt-3">
-              Эдгээр эрхтэй холбоотой хүсэлтийг support@intimate.mn хаягаар илгээнэ үү.
+              Эдгээр эрхтэй холбоотой хүсэлтийг support@khuslen.mn хаягаар илгээнэ үү.
             </p>
           </section>
 
@@ -86,8 +86,8 @@ export default function PrivacyPage() {
             <h2 className="text-[18px] font-bold text-white mb-3">8. Холбоо барих</h2>
             <p>
               Нууцлалын бодлоготой холбоотой асуулт, санал гомдол байвал{" "}
-              <a href="mailto:support@intimate.mn" className="text-[#e8415a] hover:underline">
-                support@intimate.mn
+              <a href="mailto:support@khuslen.mn" className="text-[#e8415a] hover:underline">
+                support@khuslen.mn
               </a>{" "}
               хаягаар холбогдоно уу.
             </p>
@@ -96,7 +96,7 @@ export default function PrivacyPage() {
         </div>
 
         <div className="mt-14 pt-8 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4 text-[13px] text-white/30">
-          <span>© 2026 Intimate. Бүх эрх хуулиар хамгаалагдсан.</span>
+          <span>© 2026 Khuslen. Бүх эрх хуулиар хамгаалагдсан.</span>
           <Link href="/terms" className="text-white/40 hover:text-white/70 transition-colors no-underline">
             Үйлчилгээний нөхцөл →
           </Link>

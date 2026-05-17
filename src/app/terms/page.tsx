@@ -18,7 +18,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-[18px] font-bold text-white mb-3">1. Үйлчилгээний талаар</h2>
             <p>
-              Intimate нь насанд хүрэгчдэд зориулсан нийгмийн платформ юм. Платформыг ашигласнаар
+              Khuslen нь насанд хүрэгчдэд зориулсан нийгмийн платформ юм. Платформыг ашигласнаар
               та энэхүү үйлчилгээний нөхцөлийг бүрэн хүлээн зөвшөөрч байна гэж үзнэ.
               Нөхцөлийг зөвшөөрөхгүй бол платформыг ашиглахаас татгалзана уу.
             </p>
@@ -64,7 +64,7 @@ export default function TermsPage() {
             <h2 className="text-[18px] font-bold text-white mb-3">5. Агуулгын эрх</h2>
             <p>
               Та платформд байршуулсан агуулгынхаа эрхийг өөртөө хадгална. Гэсэн хэдий ч
-              байршуулснаар та Intimate-д тухайн агуулгыг платформын хүрээнд үзүүлэх,
+              байршуулснаар та Khuslen-д тухайн агуулгыг платформын хүрээнд үзүүлэх,
               хуваалцах зөвшөөрлийг олгосон гэж үзнэ. Хориотой агуулгыг
               урьдчилан мэдэгдэлгүйгээр устгах эрхийг бид хадгална.
             </p>
@@ -86,7 +86,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-[18px] font-bold text-white mb-3">7. Хариуцлагын хязгаарлалт</h2>
             <p>
-              Intimate платформ нь хэрэглэгчдийн хоорондын харилцааны улмаас үүссэн
+              Khuslen платформ нь хэрэглэгчдийн хоорондын харилцааны улмаас үүссэн
               аливаа хохирол, маргааны хариуцлагыг хүлээхгүй. Платформ нь зуучлагчийн
               үүрэг гүйцэтгэх бөгөөд хэрэглэгч бүр өөрийн үйлдлийн хариуцлагыг хувиараа хүлээнэ.
             </p>
@@ -105,8 +105,8 @@ export default function TermsPage() {
             <h2 className="text-[18px] font-bold text-white mb-3">9. Холбоо барих</h2>
             <p>
               Асуулт, гомдол байвал{" "}
-              <a href="mailto:support@intimate.mn" className="text-[#e8415a] hover:underline">
-                support@intimate.mn
+              <a href="mailto:support@Khuslen.mn" className="text-[#e8415a] hover:underline">
+                support@Khuslen.mn
               </a>{" "}
               хаягаар холбогдоно уу.
             </p>
@@ -115,7 +115,7 @@ export default function TermsPage() {
         </div>
 
         <div className="mt-14 pt-8 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4 text-[13px] text-white/30">
-          <span>© 2026 Intimate. Бүх эрх хуулиар хамгаалагдсан.</span>
+          <span>© 2026 Khuslen. Бүх эрх хуулиар хамгаалагдсан.</span>
           <Link href="/privacy" className="text-white/40 hover:text-white/70 transition-colors no-underline">
             Нууцлалын бодлого →
           </Link>

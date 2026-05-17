@@ -105,7 +105,7 @@ export default function OnboardingPage() {
       <div className="flex items-center justify-between px-5 py-4">
         <div className="flex items-center gap-2">
           <div className="w-7 h-7 rounded-lg flex items-center justify-center text-sm font-black text-white font-serif bg-[linear-gradient(135deg,#c8254a,#780f20)]">С</div>
-          <span className="text-[15px] font-bold font-serif text-text-primary">Intimate</span>
+          <span className="text-[15px] font-bold font-serif text-text-primary">Khuslen</span>
         </div>
         <span className="text-[12px] text-text-muted">{step} / {TOTAL_STEPS}</span>
       </div>

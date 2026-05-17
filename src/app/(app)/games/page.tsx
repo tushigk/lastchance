@@ -4,7 +4,7 @@ const GAMES = [
   { title: "Үг Таавар", emoji: "🔤", genre: "Хэл", players: 1240, desc: "Монгол хэлний 5 үсэгтэй үгийг 6 оролдлогоор тааварла. Wordle загварт тоглоом.", color: "#e8415a", available: true },
   { title: "Дурын Асуулт", emoji: "❓", genre: "Нийгмийн", players: 867, desc: "Тандашгүй асуултуудад хариулж, бусад тоглогчидтой харьцуул. Хамтдаа инэмсэглэ.", color: "#9b59ff", available: true },
   { title: "Дуртай Дүр", emoji: "🎭", genre: "Тааварлалт", players: 534, desc: "Нэр хүндтэй дүрийг бусад тоглогчид тааварлах ёстой. Монгол болон дэлхийн соёлын дүрүүд.", color: "#f0c040", available: false },
-  { title: "Нууц Найз", emoji: "🎁", genre: "Нийгмийн", players: 0, desc: "Танихгүй хүнд бэлэг хүргэх тоглоом. Intimate-гийн хэрэглэгчдийн дунд хийнэ.", color: "#3cc878", available: false },
+  { title: "Нууц Найз", emoji: "🎁", genre: "Нийгмийн", players: 0, desc: "Танихгүй хүнд бэлэг хүргэх тоглоом. Khuslen-гийн хэрэглэгчдийн дунд хийнэ.", color: "#3cc878", available: false },
 ];
 
 export default function GamesPage() {

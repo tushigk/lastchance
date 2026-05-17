@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function SplashScreen({ onDone }: { onDone?: () => void } = {}) {
@@ -34,12 +35,12 @@ export default function SplashScreen({ onDone }: { onDone?: () => void } = {}) {
       <div className="relative flex flex-col items-center animate-bounce" style={{ animationDuration: '2s' }}>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-[rgba(232,65,90,0.2)] rounded-full blur-3xl animate-pulse" />
 
-        <div className="relative z-10 w-20 h-20 rounded-2xl flex items-center justify-center text-[40px] font-black text-white shrink-0 font-serif bg-[linear-gradient(135deg,#c8254a,#780f20)] shadow-[0_8px_32px_rgba(158,24,56,0.5)]">
-          С
+        <div className="relative z-10 flex items-center justify-center">
+          <Image src="/logo.png" alt="" width={50} height={50} />
         </div>
 
         <span className="relative z-10 mt-6 text-3xl font-bold tracking-[-0.02em] text-white font-serif tracking-widest uppercase">
-          Intimate
+          Khuslen
         </span>
       </div>
     </div>

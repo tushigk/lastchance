@@ -6,8 +6,8 @@ import { NotificationProvider } from "@/store/NotificationProvider";
 import AuthLoadingGate from "@/components/AuthLoadingGate";
 
 export const metadata: Metadata = {
-  title: "Intimate | Монголын Premium Нийгэмлэг",
-  description: "Монголын хамгийн онцгой насанд хүрэгчдийн нийгэмлэг",
+  title: "Khuslen | Насанд хүрэгчдийн Монголын Нийгэмлэг",
+  description: "Насанд хүрэгчдийн Монголын Нийгэмлэг",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
